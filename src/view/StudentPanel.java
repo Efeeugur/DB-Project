@@ -4,6 +4,9 @@ import controller.StudentController;
 import model.entity.Student;
 import model.entity.SkillTest;
 import util.SwingUtils;
+import util.InputValidator;
+import util.ValidationResult;
+import view.components.TableSearchPanel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -17,6 +20,7 @@ public class StudentPanel extends JPanel {
     private final StudentController studentController;
     private JTable table;
     private DefaultTableModel tableModel;
+    private TableSearchPanel searchPanel;
     
     // Form fields
     private JTextField txtFirstName;
@@ -121,8 +125,12 @@ public class StudentPanel extends JPanel {
         JPanel tableCard = SwingUtils.createCardPanel();
         tableCard.setLayout(new BorderLayout(0, 10));
         
+        // Header with title
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setOpaque(false);
         JLabel tableTitle = SwingUtils.createHeaderLabel("Student List");
-        tableCard.add(tableTitle, BorderLayout.NORTH);
+        headerPanel.add(tableTitle, BorderLayout.WEST);
+        tableCard.add(headerPanel, BorderLayout.NORTH);
         
         // Table
         String[] columns = {"ID", "First Name", "Last Name", "Email", "Phone", "Skill Level"};
@@ -140,8 +148,14 @@ public class StudentPanel extends JPanel {
             }
         });
         
-        JScrollPane scrollPane = new JScrollPane(table);
-        tableCard.add(scrollPane, BorderLayout.CENTER);
+        // Add search panel
+        searchPanel = new TableSearchPanel(table);
+        
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setOpaque(false);
+        centerPanel.add(searchPanel, BorderLayout.NORTH);
+        centerPanel.add(new JScrollPane(table), BorderLayout.CENTER);
+        tableCard.add(centerPanel, BorderLayout.CENTER);
         
         // Delete button
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -193,6 +207,20 @@ public class StudentPanel extends JPanel {
     }
     
     private void addStudent() {
+        // Validate input
+        ValidationResult validation = InputValidator.validateStudent(
+            txtFirstName.getText(),
+            txtLastName.getText(),
+            txtEmail.getText(),
+            txtPhone.getText(),
+            txtDateOfBirth.getText()
+        );
+        
+        if (!validation.isValid()) {
+            SwingUtils.showError(this, validation.getErrorsAsHtml());
+            return;
+        }
+        
         try {
             Student student = studentController.registerStudent(
                 txtFirstName.getText(),
@@ -204,6 +232,7 @@ public class StudentPanel extends JPanel {
             SwingUtils.showSuccess(this, "Student added successfully! ID: " + student.getId());
             clearForm();
             refreshTable();
+            if (searchPanel != null) searchPanel.refreshSorter();
         } catch (IllegalArgumentException e) {
             SwingUtils.showError(this, e.getMessage());
         }
