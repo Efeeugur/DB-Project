@@ -2,6 +2,7 @@ import controller.*;
 import model.dao.*;
 import model.dao.impl.*;
 import view.MainFrame;
+import util.GlobalExceptionHandler;
 import javax.swing.*;
 
 /**
@@ -11,6 +12,9 @@ import javax.swing.*;
 public class Main {
     
     public static void main(String[] args) {
+        // Install global exception handler
+        GlobalExceptionHandler.install();
+        
         // Set Look and Feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
