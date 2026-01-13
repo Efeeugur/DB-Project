@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class SwingUtils {
 
-    // Colors
+    // Original Colors (Working)
     public static final Color PRIMARY_COLOR = new Color(41, 128, 185);
     public static final Color SECONDARY_COLOR = new Color(52, 73, 94);
     public static final Color SUCCESS_COLOR = new Color(39, 174, 96);
@@ -20,14 +20,14 @@ public class SwingUtils {
     public static final Color BACKGROUND_COLOR = new Color(236, 240, 241);
     public static final Color CARD_COLOR = Color.WHITE;
 
-    // Fonts
+    // Original Fonts (Working)
     public static final Font TITLE_FONT = new Font("Segoe UI", Font.BOLD, 24);
     public static final Font HEADER_FONT = new Font("Segoe UI", Font.BOLD, 16);
     public static final Font LABEL_FONT = new Font("Segoe UI", Font.PLAIN, 14);
     public static final Font BUTTON_FONT = new Font("Segoe UI", Font.BOLD, 12);
 
     /**
-     * Creates a styled button.
+     * Creates a styled button with VISIBLE borders and text.
      */
     public static JButton createButton(String text, Color bgColor) {
         JButton button = new JButton(text);
@@ -35,9 +35,28 @@ public class SwingUtils {
         button.setForeground(Color.WHITE);
         button.setFont(BUTTON_FONT);
         button.setFocusPainted(false);
-        button.setBorderPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setPreferredSize(new Dimension(120, 35));
+        button.setOpaque(true); // CRITICAL: Make button opaque
+        button.setContentAreaFilled(true); // CRITICAL: Fill background
+        
+        // Add visible border
+        button.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(bgColor.darker(), 2),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        
+        // Add hover effect
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            Color originalBg = bgColor;
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(bgColor.brighter());
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(originalBg);
+            }
+        });
+        
         return button;
     }
 

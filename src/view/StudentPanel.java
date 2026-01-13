@@ -85,9 +85,10 @@ public class StudentPanel extends JPanel {
 
         formCard.add(Box.createVerticalStrut(20));
 
-        // Buttons
-        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        // Buttons - Using GridLayout for better visibility
+        JPanel btnPanel = new JPanel(new GridLayout(1, 3, 10, 0));
         btnPanel.setOpaque(false);
+        btnPanel.setMaximumSize(new Dimension(380, 40));
 
         JButton btnAdd = SwingUtils.createSuccessButton("Add");
         JButton btnUpdate = SwingUtils.createPrimaryButton("Update");
@@ -101,7 +102,10 @@ public class StudentPanel extends JPanel {
         btnPanel.add(btnUpdate);
         btnPanel.add(btnClear);
 
-        formCard.add(btnPanel);
+        JPanel btnContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        btnContainer.setOpaque(false);
+        btnContainer.add(btnPanel);
+        formCard.add(btnContainer);
         formCard.add(Box.createVerticalStrut(20));
 
         // Skill Test Section

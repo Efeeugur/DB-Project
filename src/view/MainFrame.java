@@ -118,14 +118,14 @@ public class MainFrame extends JFrame {
         navScrollPane.getViewport().setOpaque(false);
 
         // Left arrow button
-        JButton leftArrow = new JButton("◀");
-        leftArrow.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        JButton leftArrow = new JButton("LEFT");
+        leftArrow.setFont(new Font("Segoe UI", Font.BOLD, 11));
         leftArrow.setBackground(SwingUtils.SECONDARY_COLOR);
         leftArrow.setForeground(Color.WHITE);
         leftArrow.setBorderPainted(false);
         leftArrow.setFocusPainted(false);
         leftArrow.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        leftArrow.setPreferredSize(new Dimension(35, 30));
+        leftArrow.setPreferredSize(new Dimension(50, 30));
         leftArrow.addActionListener(e -> {
             JScrollBar hBar = navScrollPane.getHorizontalScrollBar();
             hBar.setValue(hBar.getValue() - 100);
@@ -141,14 +141,14 @@ public class MainFrame extends JFrame {
         });
 
         // Right arrow button
-        JButton rightArrow = new JButton("▶");
-        rightArrow.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        JButton rightArrow = new JButton("RIGHT");
+        rightArrow.setFont(new Font("Segoe UI", Font.BOLD, 11));
         rightArrow.setBackground(SwingUtils.SECONDARY_COLOR);
         rightArrow.setForeground(Color.WHITE);
         rightArrow.setBorderPainted(false);
         rightArrow.setFocusPainted(false);
         rightArrow.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        rightArrow.setPreferredSize(new Dimension(35, 30));
+        rightArrow.setPreferredSize(new Dimension(50, 30));
         rightArrow.addActionListener(e -> {
             JScrollBar hBar = navScrollPane.getHorizontalScrollBar();
             hBar.setValue(hBar.getValue() + 100);
@@ -193,7 +193,7 @@ public class MainFrame extends JFrame {
         int textWidth = fm.stringWidth(text);
         g2d.dispose();
 
-        int buttonWidth = Math.max(100, textWidth + 40); // minimum 100px, with 40px padding
+        int buttonWidth = Math.max(110, textWidth + 60); // minimum 110px, with 60px padding
         button.setPreferredSize(new Dimension(buttonWidth, 32));
         button.setMinimumSize(new Dimension(buttonWidth, 32));
         button.setMaximumSize(new Dimension(buttonWidth, 32));
