@@ -15,4 +15,15 @@ Thumbs.db
 # Build files
 target/
 build/
+
+# Log files
+*.log
+app.log
+
+# Database config (contains password)
+src/resources/application.properties
+
+# JAR files (except PostgreSQL driver)
+*.jar
+!postgresql.jar
 src/resources/application.properties
