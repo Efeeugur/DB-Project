@@ -122,6 +122,25 @@ public class CourseController {
     }
     
     /**
+     * Convenience method to add session with string parameters.
+     */
+    public Session addSession(int courseId, String sessionDate, 
+                             String startTime, String endTime, String topic) {
+        if (sessionDate.isEmpty() || startTime.isEmpty() || endTime.isEmpty() || topic.isEmpty()) {
+            throw new IllegalArgumentException("All session fields are required.");
+        }
+        
+        try {
+            LocalDate date = LocalDate.parse(sessionDate);
+            LocalTime start = LocalTime.parse(startTime);
+            LocalTime end = LocalTime.parse(endTime);
+            return createSession(courseId, date, start, end, topic);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid date/time format. Use YYYY-MM-DD for date and HH:MM for time.");
+        }
+    }
+    
+    /**
      * Gets all sessions for a course.
      */
     public List<Session> getSessionsByCourse(int courseId) {

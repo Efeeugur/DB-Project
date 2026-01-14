@@ -82,6 +82,13 @@ public class AttendancePanel extends JPanel {
         
         refreshEnrollmentComboBox();
         
+        // Auto-load sessions when enrollment is selected
+        cmbEnrollment.addActionListener(e -> {
+            if (cmbEnrollment.getSelectedIndex() > 0) { // Not "-- Select Enrollment --"
+                loadSessions();
+            }
+        });
+        
         formCard.add(SwingUtils.createFormRow("Enrollment:", cmbEnrollment));
         formCard.add(SwingUtils.createFormRow("Session:", cmbSession));
         formCard.add(SwingUtils.createFormRow("Status:", cmbStatus));
@@ -260,6 +267,7 @@ public class AttendancePanel extends JPanel {
         }
     }
     
+    
     private void calculateAttendance() {
         int enrollmentId = getSelectedEnrollmentId();
         if (enrollmentId < 0) {
@@ -269,5 +277,14 @@ public class AttendancePanel extends JPanel {
         
         double percentage = attendanceController.calculateAttendancePercentage(enrollmentId);
         SwingUtils.showInfo(this, String.format("Attendance Percentage: %.1f%%", percentage));
+    }
+    
+    /**
+     * Refreshes the enrollment combo box with latest data.
+     * Called when panel is shown.
+     */
+    public void refresh() {
+        refreshEnrollmentComboBox();
+        tableModel.setRowCount(0);
     }
 }

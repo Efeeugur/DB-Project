@@ -126,6 +126,65 @@ public class CoursePanel extends JPanel {
         
         formCard.add(btnPanel);
         
+        // === SESSION SECTION ===
+        formCard.add(Box.createVerticalStrut(30));
+        
+        JLabel sessionTitle = SwingUtils.createHeaderLabel("Add Session");
+        sessionTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        formCard.add(sessionTitle);
+        formCard.add(Box.createVerticalStrut(10));
+        
+        // Session fields
+        JTextField txtSessionDate = SwingUtils.createTextField();
+        txtSessionDate.setToolTipText("YYYY-MM-DD");
+        JTextField txtStartTime = SwingUtils.createTextField();
+        txtStartTime.setToolTipText("HH:MM");
+        JTextField txtEndTime = SwingUtils.createTextField();
+        txtEndTime.setToolTipText("HH:MM");
+        JTextField txtTopic = SwingUtils.createTextField();
+        
+        formCard.add(SwingUtils.createFormRow("Date:", txtSessionDate));
+        formCard.add(SwingUtils.createFormRow("Start Time:", txtStartTime));
+        formCard.add(SwingUtils.createFormRow("End Time:", txtEndTime));
+        formCard.add(SwingUtils.createFormRow("Topic:", txtTopic));
+        
+        // Session hint
+        JLabel sessionHint = new JLabel("  (Select a course first, then add sessions)");
+        sessionHint.setFont(new Font("Segoe UI", Font.ITALIC, 11));
+        sessionHint.setForeground(Color.GRAY);
+        formCard.add(sessionHint);
+        
+        formCard.add(Box.createVerticalStrut(10));
+        
+        // Add Session button
+        JPanel sessionBtnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        sessionBtnPanel.setOpaque(false);
+        JButton btnAddSession = SwingUtils.createSuccessButton("Add Session");
+        btnAddSession.addActionListener(e -> {
+            if (selectedCourseId < 0) {
+                SwingUtils.showWarning(this, "Please select a course first from the table.");
+                return;
+            }
+            try {
+                courseController.addSession(
+                    selectedCourseId,
+                    txtSessionDate.getText(),
+                    txtStartTime.getText(),
+                    txtEndTime.getText(),
+                    txtTopic.getText()
+                );
+                SwingUtils.showSuccess(this, "Session added successfully!");
+                txtSessionDate.setText("");
+                txtStartTime.setText("");
+                txtEndTime.setText("");
+                txtTopic.setText("");
+            } catch (Exception ex) {
+                SwingUtils.showError(this, "Error adding session: " + ex.getMessage());
+            }
+        });
+        sessionBtnPanel.add(btnAddSession);
+        formCard.add(sessionBtnPanel);
+        
         return formCard;
     }
     

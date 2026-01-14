@@ -244,6 +244,7 @@ public class MainFrame extends JFrame {
             case "instructors" -> instructorPanel.refreshTable();
             case "courses" -> coursePanel.refreshTable();
             case "enrollments" -> enrollmentPanel.refreshTable();
+            case "attendance" -> attendancePanel.refresh();
             case "payments" -> paymentPanel.refreshTable();
             case "reports" -> reportPanel.refresh();
         }
