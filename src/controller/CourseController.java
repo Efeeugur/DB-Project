@@ -148,6 +148,39 @@ public class CourseController {
     }
     
     /**
+     * Gets a session by ID.
+     */
+    public Optional<Session> getSession(int sessionId) {
+        return sessionDAO.findById(sessionId);
+    }
+    
+    /**
+     * Updates a session.
+     */
+    public Session updateSession(int sessionId, String sessionDate, 
+                                String startTime, String endTime, String topic) {
+        Optional<Session> sessionOpt = sessionDAO.findById(sessionId);
+        if (sessionOpt.isEmpty()) {
+            throw new IllegalArgumentException("Session not found.");
+        }
+        
+        Session session = sessionOpt.get();
+        session.setSessionDate(LocalDate.parse(sessionDate));
+        session.setStartTime(LocalTime.parse(startTime));
+        session.setEndTime(LocalTime.parse(endTime));
+        session.setTopic(topic);
+        
+        return sessionDAO.update(session);
+    }
+    
+    /**
+     * Deletes a session.
+     */
+    public boolean deleteSession(int sessionId) {
+        return sessionDAO.delete(sessionId);
+    }
+    
+    /**
      * Gets total course count.
      */
     public int getCourseCount() {

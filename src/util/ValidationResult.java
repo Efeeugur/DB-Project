@@ -1,117 +1,75 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the result of a validation operation.
  */
 public class ValidationResult {
     
-    private boolean valid;
-    private final List<String> errors;
+    private final Map<String, List<String>> errors;
     
     public ValidationResult() {
-        this.valid = true;
-        this.errors = new ArrayList<>();
+        this.errors = new HashMap<>();
     }
     
-    /**
-     * Adds an error and marks result as invalid.
-     */
-    public void addError(String error) {
-        this.valid = false;
-        this.errors.add(error);
-    }
-    
-    /**
-     * Adds an error for a specific field.
-     */
     public void addError(String field, String message) {
-        this.valid = false;
-        this.errors.add(field + ": " + message);
+        errors.computeIfAbsent(field, k -> new ArrayList<>()).add(message);
     }
     
-    /**
-     * Returns whether validation passed.
-     */
     public boolean isValid() {
-        return valid;
+        return errors.isEmpty();
     }
     
-    /**
-     * Returns all validation errors.
-     */
-    public List<String> getErrors() {
-        return new ArrayList<>(errors);
+    public Map<String, List<String>> getErrors() {
+        return errors;
     }
     
-    /**
-     * Returns first error or null if none.
-     */
     public String getFirstError() {
-        return errors.isEmpty() ? null : errors.get(0);
+        if (errors.isEmpty()) return null;
+        Map.Entry<String, List<String>> first = errors.entrySet().iterator().next();
+        return first.getKey() + ": " + first.getValue().get(0);
     }
     
-    /**
-     * Returns all errors as a single string.
-     */
-    public String getErrorsAsString() {
-        return String.join("\n", errors);
-    }
-    
-    /**
-     * Returns errors as HTML for display.
-     */
-    public String getErrorsAsHtml() {
-        if (errors.isEmpty()) return "";
-        StringBuilder sb = new StringBuilder("<html><ul>");
-        for (String error : errors) {
-            sb.append("<li>").append(error).append("</li>");
+    public String getAllErrors() {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, List<String>> entry : errors.entrySet()) {
+            for (String error : entry.getValue()) {
+                sb.append("• ").append(entry.getKey()).append(": ").append(error).append("\n");
+            }
         }
-        sb.append("</ul></html>");
-        return sb.toString();
+        return sb.toString().trim();
     }
     
-    /**
-     * Merges another validation result into this one.
-     */
     public void merge(ValidationResult other) {
-        if (other != null && !other.isValid()) {
-            this.valid = false;
-            this.errors.addAll(other.getErrors());
+        for (Map.Entry<String, List<String>> entry : other.errors.entrySet()) {
+            for (String error : entry.getValue()) {
+                addError(entry.getKey(), error);
+            }
         }
     }
     
-    /**
-     * Returns error count.
-     */
-    public int getErrorCount() {
-        return errors.size();
-    }
-    
-    /**
-     * Creates a valid result.
-     */
     public static ValidationResult valid() {
         return new ValidationResult();
     }
     
-    /**
-     * Creates an invalid result with single error.
-     */
-    public static ValidationResult invalid(String error) {
-        ValidationResult result = new ValidationResult();
-        result.addError(error);
-        return result;
-    }
-    
-    /**
-     * Creates an invalid result with field error.
-     */
     public static ValidationResult invalid(String field, String message) {
         ValidationResult result = new ValidationResult();
         result.addError(field, message);
         return result;
+    }
+    
+    public String getErrorsAsHtml() {
+        StringBuilder sb = new StringBuilder("<html>");
+        for (Map.Entry<String, List<String>> entry : errors.entrySet()) {
+            for (String error : entry.getValue()) {
+                sb.append("• ").append(entry.getKey()).append(": ").append(error).append("<br>");
+            }
+        }
+        sb.append("</html>");
+        return sb.toString();
     }
 }

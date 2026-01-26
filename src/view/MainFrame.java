@@ -21,7 +21,6 @@ public class MainFrame extends JFrame {
     private final AttendanceController attendanceController;
 
     // Panels
-    private DashboardPanel dashboardPanel;
     private StudentPanel studentPanel;
     private InstructorPanel instructorPanel;
     private CoursePanel coursePanel;
@@ -70,8 +69,8 @@ public class MainFrame extends JFrame {
                 BorderFactory.createEmptyBorder(5, 10, 5, 10)));
         add(statusLabel, BorderLayout.SOUTH);
 
-        // Show dashboard by default
-        showPanel("dashboard");
+        // Show reports by default
+        showPanel("reports");
     }
 
     private JPanel createHeader() {
@@ -94,9 +93,9 @@ public class MainFrame extends JFrame {
         navButtonsPanel.setLayout(new BoxLayout(navButtonsPanel, BoxLayout.X_AXIS));
         navButtonsPanel.setOpaque(false);
 
-        String[] navItems = { "Dashboard", "Students", "Instructors", "Courses",
+        String[] navItems = { "Students", "Instructors", "Courses",
                 "Enrollments", "Attendance", "Payments", "Reports" };
-        String[] panelNames = { "dashboard", "students", "instructors", "courses",
+        String[] panelNames = { "students", "instructors", "courses",
                 "enrollments", "attendance", "payments", "reports" };
 
         for (int i = 0; i < navItems.length; i++) {
@@ -212,18 +211,15 @@ public class MainFrame extends JFrame {
     }
 
     private void initializePanels() {
-        dashboardPanel = new DashboardPanel(studentController, instructorController,
-                courseController, enrollmentController);
         studentPanel = new StudentPanel(studentController);
         instructorPanel = new InstructorPanel(instructorController);
         coursePanel = new CoursePanel(courseController, instructorController);
         enrollmentPanel = new EnrollmentPanel(enrollmentController, studentController, courseController);
-        attendancePanel = new AttendancePanel(attendanceController, enrollmentController, courseController);
-        paymentPanel = new PaymentPanel(enrollmentController);
+        attendancePanel = new AttendancePanel(attendanceController, enrollmentController, courseController, studentController);
+        paymentPanel = new PaymentPanel(enrollmentController, studentController, courseController);
         reportPanel = new ReportPanel(studentController, instructorController,
                 courseController, enrollmentController);
 
-        contentPanel.add(dashboardPanel, "dashboard");
         contentPanel.add(studentPanel, "students");
         contentPanel.add(instructorPanel, "instructors");
         contentPanel.add(coursePanel, "courses");
@@ -239,13 +235,12 @@ public class MainFrame extends JFrame {
 
         // Refresh data when panel is shown
         switch (panelName) {
-            case "dashboard" -> dashboardPanel.refresh();
             case "students" -> studentPanel.refreshTable();
             case "instructors" -> instructorPanel.refreshTable();
             case "courses" -> coursePanel.refreshTable();
             case "enrollments" -> enrollmentPanel.refreshTable();
             case "attendance" -> attendancePanel.refresh();
-            case "payments" -> paymentPanel.refreshTable();
+            case "payments" -> paymentPanel.refresh();
             case "reports" -> reportPanel.refresh();
         }
     }

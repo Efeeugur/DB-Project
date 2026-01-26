@@ -36,6 +36,15 @@ public class CoursePanel extends JPanel {
     private JTextField txtEndDate;
     
     private int selectedCourseId = -1;
+    private int selectedSessionId = -1;
+    
+    // Session management fields
+    private JTextField txtSessionDate;
+    private JTextField txtStartTime;
+    private JTextField txtEndTime;
+    private JTextField txtTopic;
+    private JTable sessionTable;
+    private DefaultTableModel sessionTableModel;
     
     public CoursePanel(CourseController courseController, InstructorController instructorController) {
         this.courseController = courseController;
@@ -129,19 +138,19 @@ public class CoursePanel extends JPanel {
         // === SESSION SECTION ===
         formCard.add(Box.createVerticalStrut(30));
         
-        JLabel sessionTitle = SwingUtils.createHeaderLabel("Add Session");
+        JLabel sessionTitle = SwingUtils.createHeaderLabel("Session Management");
         sessionTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         formCard.add(sessionTitle);
         formCard.add(Box.createVerticalStrut(10));
         
-        // Session fields
-        JTextField txtSessionDate = SwingUtils.createTextField();
+        // Session fields (use class-level fields)
+        txtSessionDate = SwingUtils.createTextField();
         txtSessionDate.setToolTipText("YYYY-MM-DD");
-        JTextField txtStartTime = SwingUtils.createTextField();
+        txtStartTime = SwingUtils.createTextField();
         txtStartTime.setToolTipText("HH:MM");
-        JTextField txtEndTime = SwingUtils.createTextField();
+        txtEndTime = SwingUtils.createTextField();
         txtEndTime.setToolTipText("HH:MM");
-        JTextField txtTopic = SwingUtils.createTextField();
+        txtTopic = SwingUtils.createTextField();
         
         formCard.add(SwingUtils.createFormRow("Date:", txtSessionDate));
         formCard.add(SwingUtils.createFormRow("Start Time:", txtStartTime));
@@ -149,41 +158,68 @@ public class CoursePanel extends JPanel {
         formCard.add(SwingUtils.createFormRow("Topic:", txtTopic));
         
         // Session hint
-        JLabel sessionHint = new JLabel("  (Select a course first, then add sessions)");
+        JLabel sessionHint = new JLabel("  (Select course, add/edit sessions)");
         sessionHint.setFont(new Font("Segoe UI", Font.ITALIC, 11));
         sessionHint.setForeground(Color.GRAY);
         formCard.add(sessionHint);
         
         formCard.add(Box.createVerticalStrut(10));
         
-        // Add Session button
-        JPanel sessionBtnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // Session buttons
+        JPanel sessionBtnPanel = new JPanel(new GridLayout(2, 2, 5, 5));
         sessionBtnPanel.setOpaque(false);
-        JButton btnAddSession = SwingUtils.createSuccessButton("Add Session");
-        btnAddSession.addActionListener(e -> {
-            if (selectedCourseId < 0) {
-                SwingUtils.showWarning(this, "Please select a course first from the table.");
-                return;
+        sessionBtnPanel.setMaximumSize(new Dimension(360, 80));
+        
+        JButton btnAddSession = SwingUtils.createSuccessButton("Add");
+        JButton btnUpdateSession = SwingUtils.createPrimaryButton("Update");
+        JButton btnDeleteSession = SwingUtils.createDangerButton("Delete");
+        JButton btnClearSession = SwingUtils.createButton("Clear", Color.GRAY);
+        
+        btnAddSession.addActionListener(e -> addSession());
+        btnUpdateSession.addActionListener(e -> updateSession());
+        btnDeleteSession.addActionListener(e -> deleteSession());
+        btnClearSession.addActionListener(e -> clearSessionForm());
+        
+        sessionBtnPanel.add(btnAddSession);
+        sessionBtnPanel.add(btnUpdateSession);
+        sessionBtnPanel.add(btnDeleteSession);
+        sessionBtnPanel.add(btnClearSession);
+        
+        JPanel sessionBtnContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        sessionBtnContainer.setOpaque(false);
+        sessionBtnContainer.add(sessionBtnPanel);
+        formCard.add(sessionBtnContainer);
+        
+        // Session table
+        formCard.add(Box.createVerticalStrut(15));
+        JLabel sessionListTitle = new JLabel("Sessions for Selected Course:");
+        sessionListTitle.setFont(SwingUtils.LABEL_FONT);
+        sessionListTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        formCard.add(sessionListTitle);
+        formCard.add(Box.createVerticalStrut(5));
+        
+        String[] sessionColumns = {"ID", "Date", "Start", "End", "Topic"};
+        sessionTableModel = new DefaultTableModel(sessionColumns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
             }
-            try {
-                courseController.addSession(
-                    selectedCourseId,
-                    txtSessionDate.getText(),
-                    txtStartTime.getText(),
-                    txtEndTime.getText(),
-                    txtTopic.getText()
-                );
-                SwingUtils.showSuccess(this, "Session added successfully!");
-                txtSessionDate.setText("");
-                txtStartTime.setText("");
-                txtEndTime.setText("");
-                txtTopic.setText("");
-            } catch (Exception ex) {
-                SwingUtils.showError(this, "Error adding session: " + ex.getMessage());
+        };
+        
+        sessionTable = new JTable(sessionTableModel);
+        sessionTable.setFont(SwingUtils.LABEL_FONT);
+        sessionTable.setRowHeight(25);
+        sessionTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                loadSelectedSession();
             }
         });
-        sessionBtnPanel.add(btnAddSession);
-        formCard.add(sessionBtnPanel);
+        
+        JScrollPane sessionScrollPane = new JScrollPane(sessionTable);
+        sessionScrollPane.setPreferredSize(new Dimension(360, 150));
+        sessionScrollPane.setMaximumSize(new Dimension(360, 150));
+        sessionScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+        formCard.add(sessionScrollPane);
         
         return formCard;
     }
@@ -282,6 +318,9 @@ public class CoursePanel extends JPanel {
                     }
                 }
             });
+            
+            // Load sessions for this course
+            loadSessionsForCourse();
         }
     }
     
@@ -380,5 +419,108 @@ public class CoursePanel extends JPanel {
         txtStartDate.setText("");
         txtEndDate.setText("");
         table.clearSelection();
+        sessionTableModel.setRowCount(0);
+        clearSessionForm();
+    }
+    
+    // === SESSION MANAGEMENT METHODS ===
+    
+    private void loadSessionsForCourse() {
+        sessionTableModel.setRowCount(0);
+        if (selectedCourseId < 0) {
+            return;
+        }
+        
+        var sessions = courseController.getSessionsByCourse(selectedCourseId);
+        for (var s : sessions) {
+            sessionTableModel.addRow(new Object[]{
+                s.getId(),
+                s.getSessionDate(),
+                s.getStartTime(),
+                s.getEndTime(),
+                s.getTopic()
+            });
+        }
+    }
+    
+    private void loadSelectedSession() {
+        int row = sessionTable.getSelectedRow();
+        if (row >= 0) {
+            selectedSessionId = (int) sessionTableModel.getValueAt(row, 0);
+            txtSessionDate.setText(sessionTableModel.getValueAt(row, 1).toString());
+            txtStartTime.setText(sessionTableModel.getValueAt(row, 2).toString());
+            txtEndTime.setText(sessionTableModel.getValueAt(row, 3).toString());
+            txtTopic.setText(sessionTableModel.getValueAt(row, 4).toString());
+        }
+    }
+    
+    private void addSession() {
+        if (selectedCourseId < 0) {
+            SwingUtils.showWarning(this, "Please select a course first from the table.");
+            return;
+        }
+        
+        try {
+            courseController.addSession(
+                selectedCourseId,
+                txtSessionDate.getText(),
+                txtStartTime.getText(),
+                txtEndTime.getText(),
+                txtTopic.getText()
+            );
+            SwingUtils.showSuccess(this, "Session added successfully!");
+            clearSessionForm();
+            loadSessionsForCourse();
+        } catch (Exception ex) {
+            SwingUtils.showError(this, "Error adding session: " + ex.getMessage());
+        }
+    }
+    
+    private void updateSession() {
+        if (selectedSessionId < 0) {
+            SwingUtils.showWarning(this, "Please select a session first from the table.");
+            return;
+        }
+        
+        try {
+            courseController.updateSession(
+                selectedSessionId,
+                txtSessionDate.getText(),
+                txtStartTime.getText(),
+                txtEndTime.getText(),
+                txtTopic.getText()
+            );
+            SwingUtils.showSuccess(this, "Session updated successfully!");
+            clearSessionForm();
+            loadSessionsForCourse();
+        } catch (Exception ex) {
+            SwingUtils.showError(this, "Error updating session: " + ex.getMessage());
+        }
+    }
+    
+    private void deleteSession() {
+        if (selectedSessionId < 0) {
+            SwingUtils.showWarning(this, "Please select a session first from the table.");
+            return;
+        }
+        
+        if (SwingUtils.showConfirm(this, "Are you sure you want to delete this session?")) {
+            if (courseController.deleteSession(selectedSessionId)) {
+                SwingUtils.showSuccess(this, "Session deleted successfully!");
+                clearSessionForm();
+                loadSessionsForCourse();
+            } else {
+                SwingUtils.showError(this, "Failed to delete session.");
+            }
+        }
+    }
+    
+    private void clearSessionForm() {
+        selectedSessionId = -1;
+        txtSessionDate.setText("");
+        txtStartTime.setText("");
+        txtEndTime.setText("");
+        txtTopic.setText("");
+        sessionTable.clearSelection();
     }
 }

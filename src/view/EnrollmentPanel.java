@@ -29,7 +29,7 @@ public class EnrollmentPanel extends JPanel {
     
     private int selectedEnrollmentId = -1;
     
-    public EnrollmentPanel(EnrollmentController enrollmentController,
+    public EnrollmentPanel(EnrollmentController enrollmentController, 
                            StudentController studentController,
                            CourseController courseController) {
         this.enrollmentController = enrollmentController;
@@ -55,16 +55,14 @@ public class EnrollmentPanel extends JPanel {
         mainPanel.add(createTablePanel(), BorderLayout.CENTER);
         
         add(mainPanel, BorderLayout.CENTER);
-        
-        refreshTable();
     }
     
     private JPanel createFormPanel() {
         JPanel formCard = SwingUtils.createCardPanel();
         formCard.setLayout(new BoxLayout(formCard, BoxLayout.Y_AXIS));
-        formCard.setPreferredSize(new Dimension(380, 0));
+        formCard.setPreferredSize(new Dimension(350, 0));
         
-        JLabel formTitle = SwingUtils.createHeaderLabel("Enroll Student");
+        JLabel formTitle = SwingUtils.createHeaderLabel("New Enrollment");
         formTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         formCard.add(formTitle);
         formCard.add(Box.createVerticalStrut(20));
@@ -72,11 +70,11 @@ public class EnrollmentPanel extends JPanel {
         // Combo boxes
         cmbStudent = new JComboBox<>();
         cmbStudent.setFont(SwingUtils.LABEL_FONT);
-        cmbStudent.setPreferredSize(new Dimension(220, 30));
+        cmbStudent.setPreferredSize(new Dimension(200, 30));
         
         cmbCourse = new JComboBox<>();
         cmbCourse.setFont(SwingUtils.LABEL_FONT);
-        cmbCourse.setPreferredSize(new Dimension(220, 30));
+        cmbCourse.setPreferredSize(new Dimension(200, 30));
         
         refreshComboBoxes();
         
@@ -85,18 +83,17 @@ public class EnrollmentPanel extends JPanel {
         
         formCard.add(Box.createVerticalStrut(20));
         
-        // Enroll button
-        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        btnPanel.setOpaque(false);
-        
-        JButton btnEnroll = SwingUtils.createSuccessButton("Enroll");
+        JButton btnEnroll = SwingUtils.createSuccessButton("Enroll Student");
         btnEnroll.addActionListener(e -> enrollStudent());
+        
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        btnPanel.setOpaque(false);
         btnPanel.add(btnEnroll);
         
         formCard.add(btnPanel);
-        formCard.add(Box.createVerticalStrut(30));
         
         // Actions section
+        formCard.add(Box.createVerticalStrut(30));
         JLabel actionsTitle = SwingUtils.createHeaderLabel("Actions");
         actionsTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         formCard.add(actionsTitle);
@@ -118,7 +115,7 @@ public class EnrollmentPanel extends JPanel {
         
         // Info box
         formCard.add(Box.createVerticalStrut(20));
-        JLabel infoLabel = new JLabel("<html><i>Note: Students can only enroll in courses<br>matching their skill level.</i></html>");
+        JLabel infoLabel = new JLabel("<html><i>Note: Students can only enroll in courses<br>matching their skill level.<br><br>💡 Use Payment menu to process payments.</i></html>");
         infoLabel.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         infoLabel.setForeground(Color.GRAY);
         formCard.add(infoLabel);
@@ -130,11 +127,10 @@ public class EnrollmentPanel extends JPanel {
         JPanel tableCard = SwingUtils.createCardPanel();
         tableCard.setLayout(new BorderLayout(0, 10));
         
-        JLabel tableTitle = SwingUtils.createHeaderLabel("Enrollment List");
+        JLabel tableTitle = SwingUtils.createHeaderLabel("Enrollments List");
         tableCard.add(tableTitle, BorderLayout.NORTH);
         
-        // Table
-        String[] columns = {"ID", "Student ID", "Student Name", "Course ID", "Course Name", "Status", "Date"};
+        String[] columns = {"ID", "Student", "Course", "Date", "Status"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -143,22 +139,19 @@ public class EnrollmentPanel extends JPanel {
         };
         
         table = SwingUtils.createTable(tableModel);
+        
+        // Selection listener
         table.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                int row = table.getSelectedRow();
-                if (row >= 0) {
-                    selectedEnrollmentId = (int) tableModel.getValueAt(row, 0);
-                }
+            if (!e.getValueIsAdjusting() && table.getSelectedRow() != -1) {
+                selectedEnrollmentId = (int) table.getValueAt(table.getSelectedRow(), 0);
             }
         });
         
         JScrollPane scrollPane = new JScrollPane(table);
         tableCard.add(scrollPane, BorderLayout.CENTER);
         
-        // Bottom buttons
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomPanel.setOpaque(false);
-        
         JButton btnRefresh = SwingUtils.createPrimaryButton("Refresh");
         btnRefresh.addActionListener(e -> refreshTable());
         bottomPanel.add(btnRefresh);
@@ -186,67 +179,41 @@ public class EnrollmentPanel extends JPanel {
     
     public void refreshTable() {
         tableModel.setRowCount(0);
-        refreshComboBoxes();
+        List<Enrollment> enrollments = enrollmentController.getAllEnrollments();
         
-        List<Enrollment> enrollments = enrollmentController.getActiveEnrollments();
-        // Also add non-active enrollments
-        for (Enrollment e : studentController.getAllStudents().stream()
-                .flatMap(s -> enrollmentController.getStudentEnrollments(s.getId()).stream())
-                .distinct().toList()) {
-            
+        for (Enrollment e : enrollments) {
             String studentName = studentController.getStudentById(e.getStudentId())
                 .map(Student::getFullName).orElse("Unknown");
+            
             String courseName = courseController.getCourseById(e.getCourseId())
                 .map(Course::getName).orElse("Unknown");
             
             tableModel.addRow(new Object[]{
                 e.getId(),
-                e.getStudentId(),
                 studentName,
-                e.getCourseId(),
                 courseName,
-                e.getStatus(),
-                e.getEnrollmentDate().toLocalDate()
+                e.getEnrollmentDate(),
+                e.getStatus()
             });
         }
-    }
-    
-    private int getSelectedStudentId() {
-        String selected = (String) cmbStudent.getSelectedItem();
-        if (selected == null || selected.startsWith("--")) {
-            return -1;
-        }
-        return Integer.parseInt(selected.split(" - ")[0]);
-    }
-    
-    private int getSelectedCourseId() {
-        String selected = (String) cmbCourse.getSelectedItem();
-        if (selected == null || selected.startsWith("--")) {
-            return -1;
-        }
-        return Integer.parseInt(selected.split(" - ")[0]);
+        
+        refreshComboBoxes();
     }
     
     private void enrollStudent() {
-        int studentId = getSelectedStudentId();
-        int courseId = getSelectedCourseId();
-        
-        if (studentId < 0) {
-            SwingUtils.showWarning(this, "Please select a student.");
-            return;
-        }
-        if (courseId < 0) {
-            SwingUtils.showWarning(this, "Please select a course.");
+        if (cmbStudent.getSelectedIndex() <= 0 || cmbCourse.getSelectedIndex() <= 0) {
+            SwingUtils.showWarning(this, "Please select both student and course.");
             return;
         }
         
         try {
-            Enrollment enrollment = enrollmentController.enrollStudent(studentId, courseId);
-            SwingUtils.showSuccess(this, 
-                "Student enrolled successfully!\nEnrollment ID: " + enrollment.getId() +
-                "\nA pending payment has been created.");
+            int studentId = Integer.parseInt(((String)cmbStudent.getSelectedItem()).split(" - ")[0]);
+            int courseId = Integer.parseInt(((String)cmbCourse.getSelectedItem()).split(" - ")[0]);
+            
+            enrollmentController.enrollStudent(studentId, courseId);
+            SwingUtils.showSuccess(this, "Student enrolled successfully!");
             refreshTable();
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             SwingUtils.showError(this, e.getMessage());
         }
     }
@@ -257,12 +224,16 @@ public class EnrollmentPanel extends JPanel {
             return;
         }
         
-        if (SwingUtils.showConfirm(this, "Are you sure you want to drop this enrollment?")) {
-            if (enrollmentController.dropEnrollment(selectedEnrollmentId)) {
-                SwingUtils.showSuccess(this, "Enrollment dropped successfully!");
-                selectedEnrollmentId = -1;
+        int confirm = JOptionPane.showConfirmDialog(this, 
+            "Are you sure you want to drop this enrollment?", 
+            "Confirm Drop", JOptionPane.YES_NO_OPTION);
+            
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                enrollmentController.dropEnrollment(selectedEnrollmentId);
+                SwingUtils.showSuccess(this, "Enrollment dropped successfully.");
                 refreshTable();
-            } else {
+            } catch (Exception e) {
                 SwingUtils.showError(this, "Failed to drop enrollment.");
             }
         }
@@ -274,11 +245,11 @@ public class EnrollmentPanel extends JPanel {
             return;
         }
         
-        if (enrollmentController.completeEnrollment(selectedEnrollmentId)) {
-            SwingUtils.showSuccess(this, "Enrollment marked as completed!");
-            selectedEnrollmentId = -1;
+        try {
+            enrollmentController.completeEnrollment(selectedEnrollmentId);
+            SwingUtils.showSuccess(this, "Enrollment marked as completed.");
             refreshTable();
-        } else {
+        } catch (Exception e) {
             SwingUtils.showError(this, "Failed to complete enrollment.");
         }
     }

@@ -11,7 +11,7 @@ public class Attendance {
     private String notes;
 
     public enum AttendanceStatus {
-        PRESENT, ABSENT, LATE
+        PRESENT, ABSENT, LATE, EXCUSED
     }
 
     // Default constructor

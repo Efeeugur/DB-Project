@@ -159,4 +159,26 @@ public class EnrollmentController {
     public List<Payment> getPendingPayments() {
         return paymentDAO.findPendingPayments();
     }
+    
+    /**
+     * Gets payment for an enrollment (usually only one).
+     */
+    public Payment getPaymentForEnrollment(int enrollmentId) {
+        List<Payment> payments = paymentDAO.findByEnrollmentId(enrollmentId);
+        return payments.isEmpty() ? null : payments.get(0); // Return first (latest) payment
+    }
+    
+    /**
+     * Gets all payments.
+     */
+    public List<Payment> getAllPayments() {
+        return paymentDAO.findAll();
+    }
+    
+    /**
+     * Gets all enrollments.
+     */
+    public List<Enrollment> getAllEnrollments() {
+        return enrollmentDAO.findAll();
+    }
 }
