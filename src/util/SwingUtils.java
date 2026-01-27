@@ -17,13 +17,13 @@ public class SwingUtils {
     public static final Color DANGER_COLOR = new Color(220, 53, 69);
     public static final Color WARNING_COLOR = new Color(255, 193, 7);
     public static final Color SECONDARY_COLOR = new Color(108, 117, 125);
-    
+
     // Light mode background layers
     public static final Color BG_WHITE = new Color(255, 255, 255);
     public static final Color BG_LIGHT = new Color(248, 249, 250);
     public static final Color BG_MEDIUM = new Color(240, 240, 240);
     public static final Color BG_DARK = new Color(230, 230, 230);
-    
+
     // Theme-aware fallbacks
     public static final Color BACKGROUND_COLOR = UIManager.getColor("Panel.background");
     public static final Color CARD_COLOR = UIManager.getColor("Panel.background");
@@ -107,6 +107,7 @@ public class SwingUtils {
         JLabel label = new JLabel(text);
         label.putClientProperty("FlatLaf.styleClass", "h3");
         label.setForeground(PRIMARY_COLOR);
+        label.setHorizontalAlignment(SwingConstants.LEFT);
         return label;
     }
 
@@ -132,7 +133,7 @@ public class SwingUtils {
         table.setShowHorizontalLines(true);
         table.setFillsViewportHeight(true);
         table.setGridColor(new Color(230, 230, 230));
-        
+
         return table;
     }
 
@@ -142,20 +143,19 @@ public class SwingUtils {
     public static JPanel createCardPanel() {
         JPanel panel = new JPanel();
         panel.setBackground(BG_WHITE);
-        
+
         // Light shadow border
         Border shadow = BorderFactory.createMatteBorder(0, 0, 2, 2, new Color(220, 220, 220));
         Border line = BorderFactory.createLineBorder(new Color(230, 230, 230), 1);
         Border padding = BorderFactory.createEmptyBorder(16, 16, 16, 16);
-        
+
         panel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createCompoundBorder(shadow, line),
-            padding
-        ));
-        
+                BorderFactory.createCompoundBorder(shadow, line),
+                padding));
+
         return panel;
     }
-    
+
     /**
      * Creates an elevated panel for interactive sections.
      */
@@ -163,9 +163,8 @@ public class SwingUtils {
         JPanel panel = new JPanel();
         panel.setBackground(BG_WHITE);
         panel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(PRIMARY_COLOR, 1),
-            BorderFactory.createEmptyBorder(12, 12, 12, 12)
-        ));
+                BorderFactory.createLineBorder(PRIMARY_COLOR, 1),
+                BorderFactory.createEmptyBorder(12, 12, 12, 12)));
         return panel;
     }
 
@@ -181,7 +180,7 @@ public class SwingUtils {
      * Shows success dialog.
      */
     public static void showSuccess(Component parent, String message) {
-        JOptionPane.showMessageDialog(parent, message, "✓ Başarılı",
+        JOptionPane.showMessageDialog(parent, message, "Basarili",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -189,7 +188,7 @@ public class SwingUtils {
      * Shows error dialog.
      */
     public static void showError(Component parent, String message) {
-        JOptionPane.showMessageDialog(parent, message, "✗ Hata",
+        JOptionPane.showMessageDialog(parent, message, "Hata",
                 JOptionPane.ERROR_MESSAGE);
     }
 
@@ -197,7 +196,7 @@ public class SwingUtils {
      * Shows warning dialog.
      */
     public static void showWarning(Component parent, String message) {
-        JOptionPane.showMessageDialog(parent, message, "⚠ Uyarı",
+        JOptionPane.showMessageDialog(parent, message, "Uyari",
                 JOptionPane.WARNING_MESSAGE);
     }
 
@@ -225,18 +224,18 @@ public class SwingUtils {
         row.setOpaque(false);
         row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
         row.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
-        
+
         JLabel label = new JLabel(labelText);
         label.setPreferredSize(new Dimension(100, 32));
         label.setForeground(new Color(80, 80, 80));
-        
+
         // Ensure component has proper size
         if (component instanceof JTextField) {
             component.setPreferredSize(new Dimension(220, 32));
         } else if (component instanceof JComboBox) {
             component.setPreferredSize(new Dimension(220, 32));
         }
-        
+
         row.add(label, BorderLayout.WEST);
         row.add(component, BorderLayout.CENTER);
         return row;
@@ -249,17 +248,15 @@ public class SwingUtils {
         JPanel card = new JPanel(new BorderLayout(10, 10));
         card.setBackground(BG_WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(3, 0, 0, 0, color),
-            BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-                BorderFactory.createEmptyBorder(16, 20, 16, 20)
-            )
-        ));
+                BorderFactory.createMatteBorder(3, 0, 0, 0, color),
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+                        BorderFactory.createEmptyBorder(16, 20, 16, 20))));
         card.setPreferredSize(new Dimension(180, 100));
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setForeground(new Color(100, 100, 100));
-        
+
         JLabel valueLabel = new JLabel(value);
         valueLabel.putClientProperty("FlatLaf.styleClass", "h1");
         valueLabel.setForeground(color);
@@ -282,7 +279,7 @@ public class SwingUtils {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return button;
     }
-    
+
     /**
      * Creates a section separator with title.
      */
@@ -290,17 +287,17 @@ public class SwingUtils {
         JPanel panel = new JPanel(new BorderLayout(10, 0));
         panel.setOpaque(false);
         panel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
-        
+
         JLabel label = new JLabel(title);
         label.setForeground(PRIMARY_COLOR);
         label.putClientProperty("FlatLaf.styleClass", "h3");
-        
+
         JSeparator separator = new JSeparator();
         separator.setForeground(new Color(220, 220, 220));
-        
+
         panel.add(label, BorderLayout.WEST);
         panel.add(separator, BorderLayout.CENTER);
-        
+
         return panel;
     }
 }

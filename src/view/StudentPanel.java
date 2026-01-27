@@ -40,7 +40,7 @@ public class StudentPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Title
-        JLabel title = SwingUtils.createTitleLabel("👨‍🎓 Student Management");
+        JLabel title = SwingUtils.createTitleLabel("Student Management");
         add(title, BorderLayout.NORTH);
 
         // Main content
@@ -64,8 +64,11 @@ public class StudentPanel extends JPanel {
         formCard.setPreferredSize(new Dimension(350, 0));
 
         JLabel formTitle = SwingUtils.createHeaderLabel("Student Form");
-        formTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        formCard.add(formTitle);
+        JPanel formTitlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        formTitlePanel.setOpaque(false);
+        formTitlePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        formTitlePanel.add(formTitle);
+        formCard.add(formTitlePanel);
         formCard.add(Box.createVerticalStrut(20));
 
         // Form fields
@@ -110,14 +113,17 @@ public class StudentPanel extends JPanel {
 
         // Skill Test Section
         JLabel testTitle = SwingUtils.createHeaderLabel("Skill Test");
-        testTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        formCard.add(testTitle);
+        JPanel testTitlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        testTitlePanel.setOpaque(false);
+        testTitlePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        testTitlePanel.add(testTitle);
+        formCard.add(testTitlePanel);
         formCard.add(Box.createVerticalStrut(10));
 
         JButton btnSkillTest = SwingUtils.createPrimaryButton("Conduct Test");
         btnSkillTest.addActionListener(e -> conductSkillTest());
 
-        JPanel testPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel testPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         testPanel.setOpaque(false);
         testPanel.add(btnSkillTest);
         formCard.add(testPanel);

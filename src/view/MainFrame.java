@@ -79,7 +79,7 @@ public class MainFrame extends JFrame {
         header.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
 
         // Title on the left
-        JLabel titleLabel = new JLabel("🎨 Art School Management System");
+        JLabel titleLabel = new JLabel("Art School Management System");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         titleLabel.setForeground(Color.WHITE);
         header.add(titleLabel, BorderLayout.WEST);
@@ -119,6 +119,7 @@ public class MainFrame extends JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 button.setBackground(new Color(74, 101, 130)); // Lighter hover
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 button.setBackground(new Color(52, 73, 94)); // Back to header color
             }
@@ -132,7 +133,8 @@ public class MainFrame extends JFrame {
         instructorPanel = new InstructorPanel(instructorController);
         coursePanel = new CoursePanel(courseController, instructorController);
         enrollmentPanel = new EnrollmentPanel(enrollmentController, studentController, courseController);
-        attendancePanel = new AttendancePanel(attendanceController, enrollmentController, courseController, studentController);
+        attendancePanel = new AttendancePanel(attendanceController, enrollmentController, courseController,
+                studentController);
         paymentPanel = new PaymentPanel(enrollmentController, studentController, courseController);
         reportPanel = new ReportPanel(studentController, instructorController,
                 courseController, enrollmentController);

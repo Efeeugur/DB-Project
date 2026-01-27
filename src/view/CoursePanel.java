@@ -18,12 +18,12 @@ import java.util.List;
  * Panel for course management.
  */
 public class CoursePanel extends JPanel {
-    
+
     private final CourseController courseController;
     private final InstructorController instructorController;
     private JTable table;
     private DefaultTableModel tableModel;
-    
+
     // Form fields
     private JTextField txtName;
     private JTextField txtDescription;
@@ -34,10 +34,10 @@ public class CoursePanel extends JPanel {
     private JTextField txtFee;
     private JTextField txtStartDate;
     private JTextField txtEndDate;
-    
+
     private int selectedCourseId = -1;
     private int selectedSessionId = -1;
-    
+
     // Session management fields
     private JTextField txtSessionDate;
     private JTextField txtStartTime;
@@ -45,23 +45,23 @@ public class CoursePanel extends JPanel {
     private JTextField txtTopic;
     private JTable sessionTable;
     private DefaultTableModel sessionTableModel;
-    
+
     public CoursePanel(CourseController courseController, InstructorController instructorController) {
         this.courseController = courseController;
         this.instructorController = instructorController;
-        
+
         setLayout(new BorderLayout(20, 20));
         setBackground(SwingUtils.BACKGROUND_COLOR);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
+
         // Title
-        JLabel title = SwingUtils.createTitleLabel("📚 Course Management");
+        JLabel title = SwingUtils.createTitleLabel("Course Management");
         add(title, BorderLayout.NORTH);
-        
+
         // Main content
         JPanel mainPanel = new JPanel(new BorderLayout(20, 0));
         mainPanel.setOpaque(false);
-        
+
         // Left: Form with scroll
         JPanel formPanel = createFormPanel();
         JScrollPane formScrollPane = new JScrollPane(formPanel);
@@ -73,24 +73,27 @@ public class CoursePanel extends JPanel {
         formScrollPane.setOpaque(false);
         formScrollPane.getViewport().setOpaque(false);
         mainPanel.add(formScrollPane, BorderLayout.WEST);
-        
+
         // Center: Table
         mainPanel.add(createTablePanel(), BorderLayout.CENTER);
-        
+
         add(mainPanel, BorderLayout.CENTER);
-        
+
         refreshTable();
     }
-    
+
     private JPanel createFormPanel() {
         JPanel formCard = SwingUtils.createCardPanel();
         formCard.setLayout(new BoxLayout(formCard, BoxLayout.Y_AXIS));
-        
+
         JLabel formTitle = SwingUtils.createHeaderLabel("Course Form");
-        formTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        formCard.add(formTitle);
+        JPanel formTitlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        formTitlePanel.setOpaque(false);
+        formTitlePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        formTitlePanel.add(formTitle);
+        formCard.add(formTitlePanel);
         formCard.add(Box.createVerticalStrut(15));
-        
+
         // Form fields
         txtName = SwingUtils.createTextField();
         txtDescription = SwingUtils.createTextField();
@@ -100,13 +103,13 @@ public class CoursePanel extends JPanel {
         cmbInstructor.setFont(SwingUtils.LABEL_FONT);
         cmbInstructor.setPreferredSize(new Dimension(200, 30));
         refreshInstructorComboBox();
-        
+
         txtMaxCapacity = SwingUtils.createTextField();
         txtMaxCapacity.setText("20");
         txtFee = SwingUtils.createTextField();
         txtStartDate = SwingUtils.createTextField();
         txtEndDate = SwingUtils.createTextField();
-        
+
         formCard.add(SwingUtils.createFormRow("Name:", txtName));
         formCard.add(SwingUtils.createFormRow("Description:", txtDescription));
         formCard.add(SwingUtils.createFormRow("Term:", cmbTerm));
@@ -116,41 +119,44 @@ public class CoursePanel extends JPanel {
         formCard.add(SwingUtils.createFormRow("Fee:", txtFee));
         formCard.add(SwingUtils.createFormRow("Start Date:", txtStartDate));
         formCard.add(SwingUtils.createFormRow("End Date:", txtEndDate));
-        
+
         // Date hint
         JLabel dateHint = new JLabel("  (Format: YYYY-MM-DD)");
         dateHint.setFont(new Font("Segoe UI", Font.ITALIC, 11));
         dateHint.setForeground(Color.GRAY);
         formCard.add(dateHint);
-        
+
         formCard.add(Box.createVerticalStrut(15));
-        
+
         // Buttons
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         btnPanel.setOpaque(false);
-        
+
         JButton btnAdd = SwingUtils.createSuccessButton("Add");
         JButton btnUpdate = SwingUtils.createPrimaryButton("Update");
         JButton btnClear = SwingUtils.createButton("Clear");
-        
+
         btnAdd.addActionListener(e -> addCourse());
         btnUpdate.addActionListener(e -> updateCourse());
         btnClear.addActionListener(e -> clearForm());
-        
+
         btnPanel.add(btnAdd);
         btnPanel.add(btnUpdate);
         btnPanel.add(btnClear);
-        
+
         formCard.add(btnPanel);
-        
+
         // === SESSION SECTION ===
         formCard.add(Box.createVerticalStrut(30));
-        
+
         JLabel sessionTitle = SwingUtils.createHeaderLabel("Session Management");
-        sessionTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        formCard.add(sessionTitle);
+        JPanel sessionTitlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        sessionTitlePanel.setOpaque(false);
+        sessionTitlePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        sessionTitlePanel.add(sessionTitle);
+        formCard.add(sessionTitlePanel);
         formCard.add(Box.createVerticalStrut(10));
-        
+
         // Session fields (use class-level fields)
         txtSessionDate = SwingUtils.createTextField();
         txtSessionDate.setToolTipText("YYYY-MM-DD");
@@ -159,97 +165,97 @@ public class CoursePanel extends JPanel {
         txtEndTime = SwingUtils.createTextField();
         txtEndTime.setToolTipText("HH:MM");
         txtTopic = SwingUtils.createTextField();
-        
+
         formCard.add(SwingUtils.createFormRow("Date:", txtSessionDate));
         formCard.add(SwingUtils.createFormRow("Start Time:", txtStartTime));
         formCard.add(SwingUtils.createFormRow("End Time:", txtEndTime));
         formCard.add(SwingUtils.createFormRow("Topic:", txtTopic));
-        
+
         // Session hint
         JLabel sessionHint = new JLabel("  (Select course, add/edit sessions)");
         sessionHint.setFont(new Font("Segoe UI", Font.ITALIC, 11));
         sessionHint.setForeground(Color.GRAY);
         formCard.add(sessionHint);
-        
+
         formCard.add(Box.createVerticalStrut(10));
-        
+
         // Session buttons
         JPanel sessionBtnPanel = new JPanel(new GridLayout(2, 2, 5, 5));
         sessionBtnPanel.setOpaque(false);
         sessionBtnPanel.setMaximumSize(new Dimension(360, 80));
-        
+
         JButton btnAddSession = SwingUtils.createSuccessButton("Add");
         JButton btnUpdateSession = SwingUtils.createPrimaryButton("Update");
         JButton btnDeleteSession = SwingUtils.createDangerButton("Delete");
         JButton btnClearSession = SwingUtils.createButton("Clear");
-        
+
         btnAddSession.addActionListener(e -> addSession());
         btnUpdateSession.addActionListener(e -> updateSession());
         btnDeleteSession.addActionListener(e -> deleteSession());
         btnClearSession.addActionListener(e -> clearSessionForm());
-        
+
         sessionBtnPanel.add(btnAddSession);
         sessionBtnPanel.add(btnUpdateSession);
         sessionBtnPanel.add(btnDeleteSession);
         sessionBtnPanel.add(btnClearSession);
-        
+
         JPanel sessionBtnContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         sessionBtnContainer.setOpaque(false);
         sessionBtnContainer.add(sessionBtnPanel);
         formCard.add(sessionBtnContainer);
-        
+
         // Add some padding at the bottom
         formCard.add(Box.createVerticalStrut(20));
-        
+
         // Set preferred size with enough height for all content
         formCard.setPreferredSize(new Dimension(380, 850));
-        
+
         return formCard;
     }
-    
+
     private JPanel createTablePanel() {
         JPanel tableCard = SwingUtils.createCardPanel();
         tableCard.setLayout(new BorderLayout(0, 10));
-        
+
         JLabel tableTitle = SwingUtils.createHeaderLabel("Course List");
         tableCard.add(tableTitle, BorderLayout.NORTH);
-        
+
         // Table
-        String[] columns = {"ID", "Name", "Term", "Level", "Instructor ID", "Capacity", "Fee"};
+        String[] columns = { "ID", "Name", "Term", "Level", "Instructor ID", "Capacity", "Fee" };
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        
+
         table = SwingUtils.createTable(tableModel);
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 loadSelectedCourse();
             }
         });
-        
+
         JScrollPane scrollPane = new JScrollPane(table);
         tableCard.add(scrollPane, BorderLayout.CENTER);
-        
+
         // Bottom buttons
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomPanel.setOpaque(false);
-        
+
         JButton btnDelete = SwingUtils.createDangerButton("Delete");
         JButton btnRefresh = SwingUtils.createPrimaryButton("Refresh");
-        
+
         btnDelete.addActionListener(e -> deleteCourse());
         btnRefresh.addActionListener(e -> refreshTable());
-        
+
         bottomPanel.add(btnRefresh);
         bottomPanel.add(btnDelete);
         tableCard.add(bottomPanel, BorderLayout.SOUTH);
-        
+
         return tableCard;
     }
-    
+
     private void refreshInstructorComboBox() {
         cmbInstructor.removeAllItems();
         cmbInstructor.addItem("-- Select Instructor --");
@@ -258,30 +264,30 @@ public class CoursePanel extends JPanel {
             cmbInstructor.addItem(i.getId() + " - " + i.getFullName());
         }
     }
-    
+
     public void refreshTable() {
         tableModel.setRowCount(0);
         refreshInstructorComboBox();
         List<Course> courses = courseController.getAllCourses();
-        
+
         for (Course c : courses) {
-            tableModel.addRow(new Object[]{
-                c.getId(),
-                c.getName(),
-                c.getTerm(),
-                c.getSkillLevel(),
-                c.getInstructorId(),
-                c.getMaxCapacity(),
-                "$" + c.getFee()
+            tableModel.addRow(new Object[] {
+                    c.getId(),
+                    c.getName(),
+                    c.getTerm(),
+                    c.getSkillLevel(),
+                    c.getInstructorId(),
+                    c.getMaxCapacity(),
+                    "$" + c.getFee()
             });
         }
     }
-    
+
     private void loadSelectedCourse() {
         int row = table.getSelectedRow();
         if (row >= 0) {
             selectedCourseId = (int) tableModel.getValueAt(row, 0);
-            
+
             courseController.getCourseById(selectedCourseId).ifPresent(c -> {
                 txtName.setText(c.getName());
                 txtDescription.setText(c.getDescription());
@@ -291,7 +297,7 @@ public class CoursePanel extends JPanel {
                 txtFee.setText(c.getFee().toString());
                 txtStartDate.setText(c.getStartDate() != null ? c.getStartDate().toString() : "");
                 txtEndDate.setText(c.getEndDate() != null ? c.getEndDate().toString() : "");
-                
+
                 // Select instructor
                 for (int i = 0; i < cmbInstructor.getItemCount(); i++) {
                     String item = (String) cmbInstructor.getItemAt(i);
@@ -301,12 +307,12 @@ public class CoursePanel extends JPanel {
                     }
                 }
             });
-            
+
             // Load sessions for this course
             loadSessionsForCourse();
         }
     }
-    
+
     private int getSelectedInstructorId() {
         String selected = (String) cmbInstructor.getSelectedItem();
         if (selected == null || selected.startsWith("--")) {
@@ -314,7 +320,7 @@ public class CoursePanel extends JPanel {
         }
         return Integer.parseInt(selected.split(" - ")[0]);
     }
-    
+
     private void addCourse() {
         try {
             int instructorId = getSelectedInstructorId();
@@ -322,18 +328,17 @@ public class CoursePanel extends JPanel {
                 SwingUtils.showWarning(this, "Please select an instructor.");
                 return;
             }
-            
+
             Course course = courseController.createCourse(
-                txtName.getText(),
-                txtDescription.getText(),
-                (Course.Term) cmbTerm.getSelectedItem(),
-                (Student.SkillLevel) cmbSkillLevel.getSelectedItem(),
-                instructorId,
-                Integer.parseInt(txtMaxCapacity.getText()),
-                new BigDecimal(txtFee.getText()),
-                LocalDate.parse(txtStartDate.getText()),
-                LocalDate.parse(txtEndDate.getText())
-            );
+                    txtName.getText(),
+                    txtDescription.getText(),
+                    (Course.Term) cmbTerm.getSelectedItem(),
+                    (Student.SkillLevel) cmbSkillLevel.getSelectedItem(),
+                    instructorId,
+                    Integer.parseInt(txtMaxCapacity.getText()),
+                    new BigDecimal(txtFee.getText()),
+                    LocalDate.parse(txtStartDate.getText()),
+                    LocalDate.parse(txtEndDate.getText()));
             SwingUtils.showSuccess(this, "Course added successfully! ID: " + course.getId());
             clearForm();
             refreshTable();
@@ -345,13 +350,13 @@ public class CoursePanel extends JPanel {
             SwingUtils.showError(this, e.getMessage());
         }
     }
-    
+
     private void updateCourse() {
         if (selectedCourseId < 0) {
             SwingUtils.showWarning(this, "Please select a course first.");
             return;
         }
-        
+
         try {
             courseController.getCourseById(selectedCourseId).ifPresent(course -> {
                 course.setName(txtName.getText());
@@ -363,7 +368,7 @@ public class CoursePanel extends JPanel {
                 course.setFee(new BigDecimal(txtFee.getText()));
                 course.setStartDate(LocalDate.parse(txtStartDate.getText()));
                 course.setEndDate(LocalDate.parse(txtEndDate.getText()));
-                
+
                 courseController.updateCourse(course);
                 SwingUtils.showSuccess(this, "Course updated successfully!");
                 refreshTable();
@@ -372,13 +377,13 @@ public class CoursePanel extends JPanel {
             SwingUtils.showError(this, "Error updating course: " + e.getMessage());
         }
     }
-    
+
     private void deleteCourse() {
         if (selectedCourseId < 0) {
             SwingUtils.showWarning(this, "Please select a course first.");
             return;
         }
-        
+
         if (SwingUtils.showConfirm(this, "Are you sure you want to delete this course?")) {
             if (courseController.deleteCourse(selectedCourseId)) {
                 SwingUtils.showSuccess(this, "Course deleted successfully!");
@@ -389,7 +394,7 @@ public class CoursePanel extends JPanel {
             }
         }
     }
-    
+
     private void clearForm() {
         selectedCourseId = -1;
         txtName.setText("");
@@ -407,9 +412,9 @@ public class CoursePanel extends JPanel {
         }
         clearSessionForm();
     }
-    
+
     // === SESSION MANAGEMENT METHODS ===
-    
+
     private void loadSessionsForCourse() {
         if (sessionTableModel == null) {
             return;
@@ -418,19 +423,19 @@ public class CoursePanel extends JPanel {
         if (selectedCourseId < 0) {
             return;
         }
-        
+
         var sessions = courseController.getSessionsByCourse(selectedCourseId);
         for (var s : sessions) {
-            sessionTableModel.addRow(new Object[]{
-                s.getId(),
-                s.getSessionDate(),
-                s.getStartTime(),
-                s.getEndTime(),
-                s.getTopic()
+            sessionTableModel.addRow(new Object[] {
+                    s.getId(),
+                    s.getSessionDate(),
+                    s.getStartTime(),
+                    s.getEndTime(),
+                    s.getTopic()
             });
         }
     }
-    
+
     private void loadSelectedSession() {
         if (sessionTable == null || sessionTableModel == null) {
             return;
@@ -444,21 +449,20 @@ public class CoursePanel extends JPanel {
             txtTopic.setText(sessionTableModel.getValueAt(row, 4).toString());
         }
     }
-    
+
     private void addSession() {
         if (selectedCourseId < 0) {
             SwingUtils.showWarning(this, "Please select a course first from the table.");
             return;
         }
-        
+
         try {
             courseController.addSession(
-                selectedCourseId,
-                txtSessionDate.getText(),
-                txtStartTime.getText(),
-                txtEndTime.getText(),
-                txtTopic.getText()
-            );
+                    selectedCourseId,
+                    txtSessionDate.getText(),
+                    txtStartTime.getText(),
+                    txtEndTime.getText(),
+                    txtTopic.getText());
             SwingUtils.showSuccess(this, "Session added successfully!");
             clearSessionForm();
             loadSessionsForCourse();
@@ -466,21 +470,20 @@ public class CoursePanel extends JPanel {
             SwingUtils.showError(this, "Error adding session: " + ex.getMessage());
         }
     }
-    
+
     private void updateSession() {
         if (selectedSessionId < 0) {
             SwingUtils.showWarning(this, "Please select a session first from the table.");
             return;
         }
-        
+
         try {
             courseController.updateSession(
-                selectedSessionId,
-                txtSessionDate.getText(),
-                txtStartTime.getText(),
-                txtEndTime.getText(),
-                txtTopic.getText()
-            );
+                    selectedSessionId,
+                    txtSessionDate.getText(),
+                    txtStartTime.getText(),
+                    txtEndTime.getText(),
+                    txtTopic.getText());
             SwingUtils.showSuccess(this, "Session updated successfully!");
             clearSessionForm();
             loadSessionsForCourse();
@@ -488,13 +491,13 @@ public class CoursePanel extends JPanel {
             SwingUtils.showError(this, "Error updating session: " + ex.getMessage());
         }
     }
-    
+
     private void deleteSession() {
         if (selectedSessionId < 0) {
             SwingUtils.showWarning(this, "Please select a session first from the table.");
             return;
         }
-        
+
         if (SwingUtils.showConfirm(this, "Are you sure you want to delete this session?")) {
             if (courseController.deleteSession(selectedSessionId)) {
                 SwingUtils.showSuccess(this, "Session deleted successfully!");
@@ -505,7 +508,7 @@ public class CoursePanel extends JPanel {
             }
         }
     }
-    
+
     private void clearSessionForm() {
         selectedSessionId = -1;
         txtSessionDate.setText("");
