@@ -62,8 +62,17 @@ public class CoursePanel extends JPanel {
         JPanel mainPanel = new JPanel(new BorderLayout(20, 0));
         mainPanel.setOpaque(false);
         
-        // Left: Form
-        mainPanel.add(createFormPanel(), BorderLayout.WEST);
+        // Left: Form with scroll
+        JPanel formPanel = createFormPanel();
+        JScrollPane formScrollPane = new JScrollPane(formPanel);
+        formScrollPane.setPreferredSize(new Dimension(400, 0));
+        formScrollPane.setBorder(null);
+        formScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        formScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        formScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        formScrollPane.setOpaque(false);
+        formScrollPane.getViewport().setOpaque(false);
+        mainPanel.add(formScrollPane, BorderLayout.WEST);
         
         // Center: Table
         mainPanel.add(createTablePanel(), BorderLayout.CENTER);
@@ -76,7 +85,6 @@ public class CoursePanel extends JPanel {
     private JPanel createFormPanel() {
         JPanel formCard = SwingUtils.createCardPanel();
         formCard.setLayout(new BoxLayout(formCard, BoxLayout.Y_AXIS));
-        formCard.setPreferredSize(new Dimension(380, 0));
         
         JLabel formTitle = SwingUtils.createHeaderLabel("Course Form");
         formTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -123,7 +131,7 @@ public class CoursePanel extends JPanel {
         
         JButton btnAdd = SwingUtils.createSuccessButton("Add");
         JButton btnUpdate = SwingUtils.createPrimaryButton("Update");
-        JButton btnClear = SwingUtils.createButton("Clear", Color.GRAY);
+        JButton btnClear = SwingUtils.createButton("Clear");
         
         btnAdd.addActionListener(e -> addCourse());
         btnUpdate.addActionListener(e -> updateCourse());
@@ -173,7 +181,7 @@ public class CoursePanel extends JPanel {
         JButton btnAddSession = SwingUtils.createSuccessButton("Add");
         JButton btnUpdateSession = SwingUtils.createPrimaryButton("Update");
         JButton btnDeleteSession = SwingUtils.createDangerButton("Delete");
-        JButton btnClearSession = SwingUtils.createButton("Clear", Color.GRAY);
+        JButton btnClearSession = SwingUtils.createButton("Clear");
         
         btnAddSession.addActionListener(e -> addSession());
         btnUpdateSession.addActionListener(e -> updateSession());
@@ -190,36 +198,11 @@ public class CoursePanel extends JPanel {
         sessionBtnContainer.add(sessionBtnPanel);
         formCard.add(sessionBtnContainer);
         
-        // Session table
-        formCard.add(Box.createVerticalStrut(15));
-        JLabel sessionListTitle = new JLabel("Sessions for Selected Course:");
-        sessionListTitle.setFont(SwingUtils.LABEL_FONT);
-        sessionListTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        formCard.add(sessionListTitle);
-        formCard.add(Box.createVerticalStrut(5));
+        // Add some padding at the bottom
+        formCard.add(Box.createVerticalStrut(20));
         
-        String[] sessionColumns = {"ID", "Date", "Start", "End", "Topic"};
-        sessionTableModel = new DefaultTableModel(sessionColumns, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        
-        sessionTable = new JTable(sessionTableModel);
-        sessionTable.setFont(SwingUtils.LABEL_FONT);
-        sessionTable.setRowHeight(25);
-        sessionTable.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                loadSelectedSession();
-            }
-        });
-        
-        JScrollPane sessionScrollPane = new JScrollPane(sessionTable);
-        sessionScrollPane.setPreferredSize(new Dimension(360, 150));
-        sessionScrollPane.setMaximumSize(new Dimension(360, 150));
-        sessionScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-        formCard.add(sessionScrollPane);
+        // Set preferred size with enough height for all content
+        formCard.setPreferredSize(new Dimension(380, 850));
         
         return formCard;
     }
@@ -419,13 +402,18 @@ public class CoursePanel extends JPanel {
         txtStartDate.setText("");
         txtEndDate.setText("");
         table.clearSelection();
-        sessionTableModel.setRowCount(0);
+        if (sessionTableModel != null) {
+            sessionTableModel.setRowCount(0);
+        }
         clearSessionForm();
     }
     
     // === SESSION MANAGEMENT METHODS ===
     
     private void loadSessionsForCourse() {
+        if (sessionTableModel == null) {
+            return;
+        }
         sessionTableModel.setRowCount(0);
         if (selectedCourseId < 0) {
             return;
@@ -444,6 +432,9 @@ public class CoursePanel extends JPanel {
     }
     
     private void loadSelectedSession() {
+        if (sessionTable == null || sessionTableModel == null) {
+            return;
+        }
         int row = sessionTable.getSelectedRow();
         if (row >= 0) {
             selectedSessionId = (int) sessionTableModel.getValueAt(row, 0);
@@ -521,6 +512,8 @@ public class CoursePanel extends JPanel {
         txtStartTime.setText("");
         txtEndTime.setText("");
         txtTopic.setText("");
-        sessionTable.clearSelection();
+        if (sessionTable != null) {
+            sessionTable.clearSelection();
+        }
     }
 }

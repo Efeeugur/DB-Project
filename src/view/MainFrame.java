@@ -44,7 +44,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
-        setMinimumSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(1100, 600));
 
         // Main layout
         setLayout(new BorderLayout());
@@ -74,24 +74,19 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel createHeader() {
-        JPanel header = new JPanel(new BorderLayout());
-        header.setBackground(SwingUtils.SECONDARY_COLOR);
-        header.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        JPanel header = new JPanel(new BorderLayout(20, 0));
+        header.setBackground(new Color(52, 73, 94)); // Dark slate
+        header.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
 
-        // Title
+        // Title on the left
         JLabel titleLabel = new JLabel("🎨 Art School Management System");
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         titleLabel.setForeground(Color.WHITE);
         header.add(titleLabel, BorderLayout.WEST);
 
-        // Navigation container with arrow buttons
-        JPanel navContainer = new JPanel(new BorderLayout(5, 0));
-        navContainer.setOpaque(false);
-
-        // Navigation buttons panel
-        JPanel navButtonsPanel = new JPanel();
-        navButtonsPanel.setLayout(new BoxLayout(navButtonsPanel, BoxLayout.X_AXIS));
-        navButtonsPanel.setOpaque(false);
+        // Navigation buttons - centered in remaining space
+        JPanel navPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 0));
+        navPanel.setOpaque(false);
 
         String[] navItems = { "Students", "Instructors", "Courses",
                 "Enrollments", "Attendance", "Payments", "Reports" };
@@ -102,108 +97,30 @@ public class MainFrame extends JFrame {
             JButton btn = createNavButton(navItems[i]);
             final String panelName = panelNames[i];
             btn.addActionListener(e -> showPanel(panelName));
-            navButtonsPanel.add(btn);
-            if (i < navItems.length - 1) {
-                navButtonsPanel.add(Box.createHorizontalStrut(5));
-            }
+            navPanel.add(btn);
         }
 
-        // Scroll pane without visible scrollbar
-        JScrollPane navScrollPane = new JScrollPane(navButtonsPanel);
-        navScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        navScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        navScrollPane.setBorder(null);
-        navScrollPane.setOpaque(false);
-        navScrollPane.getViewport().setOpaque(false);
-
-        // Left arrow button
-        JButton leftArrow = new JButton("LEFT");
-        leftArrow.setFont(new Font("Segoe UI", Font.BOLD, 11));
-        leftArrow.setBackground(SwingUtils.SECONDARY_COLOR);
-        leftArrow.setForeground(Color.WHITE);
-        leftArrow.setBorderPainted(false);
-        leftArrow.setFocusPainted(false);
-        leftArrow.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        leftArrow.setPreferredSize(new Dimension(50, 30));
-        leftArrow.addActionListener(e -> {
-            JScrollBar hBar = navScrollPane.getHorizontalScrollBar();
-            hBar.setValue(hBar.getValue() - 100);
-        });
-        leftArrow.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                leftArrow.setBackground(SwingUtils.PRIMARY_COLOR);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                leftArrow.setBackground(SwingUtils.SECONDARY_COLOR);
-            }
-        });
-
-        // Right arrow button
-        JButton rightArrow = new JButton("RIGHT");
-        rightArrow.setFont(new Font("Segoe UI", Font.BOLD, 11));
-        rightArrow.setBackground(SwingUtils.SECONDARY_COLOR);
-        rightArrow.setForeground(Color.WHITE);
-        rightArrow.setBorderPainted(false);
-        rightArrow.setFocusPainted(false);
-        rightArrow.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        rightArrow.setPreferredSize(new Dimension(50, 30));
-        rightArrow.addActionListener(e -> {
-            JScrollBar hBar = navScrollPane.getHorizontalScrollBar();
-            hBar.setValue(hBar.getValue() + 100);
-        });
-        rightArrow.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                rightArrow.setBackground(SwingUtils.PRIMARY_COLOR);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                rightArrow.setBackground(SwingUtils.SECONDARY_COLOR);
-            }
-        });
-
-        navContainer.add(leftArrow, BorderLayout.WEST);
-        navContainer.add(navScrollPane, BorderLayout.CENTER);
-        navContainer.add(rightArrow, BorderLayout.EAST);
-
-        header.add(navContainer, BorderLayout.CENTER);
+        header.add(navPanel, BorderLayout.CENTER);
 
         return header;
     }
 
     private JButton createNavButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(SwingUtils.SECONDARY_COLOR);
+        button.setBackground(new Color(52, 73, 94)); // Same as header
         button.setForeground(Color.WHITE);
         button.setFont(new Font("Segoe UI", Font.BOLD, 13));
         button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        // Use fixed width based on longest text to ensure all text is visible
-        // "Enrollments" is the longest text, needs about 95px
-        // Add extra padding for safety
-        Font buttonFont = button.getFont();
-        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(1, 1,
-                java.awt.image.BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = img.createGraphics();
-        g2d.setFont(buttonFont);
-        FontMetrics fm = g2d.getFontMetrics();
-        int textWidth = fm.stringWidth(text);
-        g2d.dispose();
-
-        int buttonWidth = Math.max(110, textWidth + 60); // minimum 110px, with 60px padding
-        button.setPreferredSize(new Dimension(buttonWidth, 32));
-        button.setMinimumSize(new Dimension(buttonWidth, 32));
-        button.setMaximumSize(new Dimension(buttonWidth, 32));
+        button.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
 
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(SwingUtils.PRIMARY_COLOR);
+                button.setBackground(new Color(74, 101, 130)); // Lighter hover
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(SwingUtils.SECONDARY_COLOR);
+                button.setBackground(new Color(52, 73, 94)); // Back to header color
             }
         });
 

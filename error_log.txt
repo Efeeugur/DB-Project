@@ -1,0 +1,482 @@
+============================================================
+Timestamp: 2026-01-27 14:55:23
+Thread: main
+Exception: java.lang.NoClassDefFoundError
+Message: com/formdev/flatlaf/FlatLightLaf
+Stack Trace:
+java.lang.NoClassDefFoundError: com/formdev/flatlaf/FlatLightLaf
+	at Main.main(Main.java:23)
+Caused by: java.lang.ClassNotFoundException: com.formdev.flatlaf.FlatLightLaf
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 1 more
+
+============================================================
+Timestamp: 2026-01-27 14:56:00
+Thread: main
+Exception: java.lang.NoClassDefFoundError
+Message: com/formdev/flatlaf/FlatLightLaf
+Stack Trace:
+java.lang.NoClassDefFoundError: com/formdev/flatlaf/FlatLightLaf
+	at Main.main(Main.java:23)
+Caused by: java.lang.ClassNotFoundException: com.formdev.flatlaf.FlatLightLaf
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 1 more
+
+============================================================
+Timestamp: 2026-01-27 15:39:25
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:39:29
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:39:34
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:39:35
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:39:38
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:39:41
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:39:55
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:40:15
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:43:41
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:43:43
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 15:43:54
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.table.DefaultTableModel.setRowCount(int)" because "this.sessionTableModel" is null
+	at view.CoursePanel.loadSessionsForCourse(CoursePanel.java:398)
+	at view.CoursePanel.loadSelectedCourse(CoursePanel.java:292)
+	at view.CoursePanel.lambda$createTablePanel$0(CoursePanel.java:215)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:231)
+	at java.desktop/javax.swing.DefaultListSelectionModel.fireValueChanged(DefaultListSelectionModel.java:193)
+	at java.desktop/javax.swing.DefaultListSelectionModel.setValueIsAdjusting(DefaultListSelectionModel.java:771)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.setValueIsAdjusting(BasicTableUI.java:983)
+	at java.desktop/javax.swing.plaf.basic.BasicTableUI$Handler.mouseReleased(BasicTableUI.java:1196)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:300)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+============================================================
+Timestamp: 2026-01-27 16:15:53
+Thread: AWT-EventQueue-0
+Exception: java.lang.NullPointerException
+Message: Cannot invoke "javax.swing.JTable.clearSelection()" because "this.sessionTable" is null
+Stack Trace:
+java.lang.NullPointerException: Cannot invoke "javax.swing.JTable.clearSelection()" because "this.sessionTable" is null
+	at view.CoursePanel.clearSessionForm(CoursePanel.java:515)
+	at view.CoursePanel.clearForm(CoursePanel.java:408)
+	at view.CoursePanel.addCourse(CoursePanel.java:338)
+	at view.CoursePanel.lambda$createFormPanel$0(CoursePanel.java:136)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
+	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
+	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6576)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3404)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6341)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2260)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4958)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2318)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4917)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4560)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4501)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2304)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2671)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4790)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+

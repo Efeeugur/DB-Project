@@ -324,7 +324,7 @@ public class AttendancePanel extends JPanel {
             refreshTable();
         });
         
-        JButton btnCancel = SwingUtils.createButton("Cancel", Color.GRAY);
+        JButton btnCancel = SwingUtils.createButton("Cancel");
         btnCancel.addActionListener(e -> dialog.dispose());
         
         buttonPanel.add(btnMarkAllPresent);

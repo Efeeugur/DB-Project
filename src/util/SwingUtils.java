@@ -1,187 +1,171 @@
 package util;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 
 /**
  * Utility class for Swing GUI operations.
+ * Uses FlatLaf LIGHT theme with visual depth and hierarchy.
  */
 public class SwingUtils {
 
-    // Original Colors (Working)
-    public static final Color PRIMARY_COLOR = new Color(41, 128, 185);
-    public static final Color SECONDARY_COLOR = new Color(52, 73, 94);
-    public static final Color SUCCESS_COLOR = new Color(39, 174, 96);
-    public static final Color DANGER_COLOR = new Color(192, 57, 43);
-    public static final Color WARNING_COLOR = new Color(243, 156, 18);
-    public static final Color BACKGROUND_COLOR = new Color(236, 240, 241);
-    public static final Color CARD_COLOR = Color.WHITE;
-
-    // Original Fonts (Working)
-    public static final Font TITLE_FONT = new Font("Segoe UI", Font.BOLD, 24);
-    public static final Font HEADER_FONT = new Font("Segoe UI", Font.BOLD, 16);
-    public static final Font LABEL_FONT = new Font("Segoe UI", Font.PLAIN, 14);
-    public static final Font BUTTON_FONT = new Font("Segoe UI", Font.BOLD, 12);
+    // Modern accent colors (lighter variants for light mode)
+    public static final Color PRIMARY_COLOR = new Color(0, 120, 215);
+    public static final Color SUCCESS_COLOR = new Color(40, 167, 69);
+    public static final Color DANGER_COLOR = new Color(220, 53, 69);
+    public static final Color WARNING_COLOR = new Color(255, 193, 7);
+    public static final Color SECONDARY_COLOR = new Color(108, 117, 125);
+    
+    // Light mode background layers
+    public static final Color BG_WHITE = new Color(255, 255, 255);
+    public static final Color BG_LIGHT = new Color(248, 249, 250);
+    public static final Color BG_MEDIUM = new Color(240, 240, 240);
+    public static final Color BG_DARK = new Color(230, 230, 230);
+    
+    // Theme-aware fallbacks
+    public static final Color BACKGROUND_COLOR = UIManager.getColor("Panel.background");
+    public static final Color CARD_COLOR = UIManager.getColor("Panel.background");
+    public static final Font LABEL_FONT = UIManager.getFont("Label.font");
 
     /**
-     * Creates a styled button with VISIBLE borders and text.
+     * Creates a standard button.
      */
-    public static JButton createButton(String text, Color bgColor) {
+    public static JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(bgColor);
-        button.setForeground(Color.WHITE);
-        button.setFont(BUTTON_FONT);
-        button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        button.setPreferredSize(new Dimension(120, 35));
-        button.setOpaque(true); // CRITICAL: Make button opaque
-        button.setContentAreaFilled(true); // CRITICAL: Fill background
-        
-        // Add visible border
-        button.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(bgColor.darker(), 2),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
-        
-        // Add hover effect
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            Color originalBg = bgColor;
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(bgColor.brighter());
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(originalBg);
-            }
-        });
-        
         return button;
     }
 
     /**
-     * Creates a primary styled button.
+     * Creates a primary styled button (accent color).
      */
     public static JButton createPrimaryButton(String text) {
-        return createButton(text, PRIMARY_COLOR);
+        JButton button = new JButton(text);
+        button.setBackground(PRIMARY_COLOR);
+        button.setForeground(Color.WHITE);
+        button.putClientProperty("JButton.buttonType", "roundRect");
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
     }
 
     /**
-     * Creates a success styled button.
+     * Creates a success styled button (green).
      */
     public static JButton createSuccessButton(String text) {
-        return createButton(text, SUCCESS_COLOR);
+        JButton button = new JButton(text);
+        button.setBackground(SUCCESS_COLOR);
+        button.setForeground(Color.WHITE);
+        button.putClientProperty("JButton.buttonType", "roundRect");
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
     }
 
     /**
-     * Creates a danger styled button.
+     * Creates a danger styled button (red).
      */
     public static JButton createDangerButton(String text) {
-        return createButton(text, DANGER_COLOR);
+        JButton button = new JButton(text);
+        button.setBackground(DANGER_COLOR);
+        button.setForeground(Color.WHITE);
+        button.putClientProperty("JButton.buttonType", "roundRect");
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
     }
 
     /**
-     * Creates a styled text field.
+     * Creates a standard text field with enhanced styling.
      */
     public static JTextField createTextField() {
-        JTextField textField = new JTextField();
-        textField.setFont(LABEL_FONT);
-        textField.setPreferredSize(new Dimension(200, 30));
+        JTextField textField = new JTextField(25);
+        textField.setPreferredSize(new Dimension(220, 32));
+        textField.setMinimumSize(new Dimension(180, 32));
         return textField;
     }
 
     /**
-     * Creates a styled label.
+     * Creates a standard label.
      */
     public static JLabel createLabel(String text) {
-        JLabel label = new JLabel(text);
-        label.setFont(LABEL_FONT);
-        return label;
+        return new JLabel(text);
     }
 
     /**
-     * Creates a styled title label.
+     * Creates a title label with larger font (FlatLaf h1 style).
      */
     public static JLabel createTitleLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(TITLE_FONT);
-        label.setForeground(SECONDARY_COLOR);
+        label.putClientProperty("FlatLaf.styleClass", "h1");
+        label.setForeground(new Color(40, 40, 40));
         return label;
     }
 
     /**
-     * Creates a styled header label.
+     * Creates a header label (FlatLaf h3 style).
      */
     public static JLabel createHeaderLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(HEADER_FONT);
-        label.setForeground(SECONDARY_COLOR);
+        label.putClientProperty("FlatLaf.styleClass", "h3");
+        label.setForeground(PRIMARY_COLOR);
         return label;
     }
 
     /**
-     * Creates a styled combo box.
+     * Creates a standard combo box.
      */
     public static <T> JComboBox<T> createComboBox(T[] items) {
         JComboBox<T> comboBox = new JComboBox<>(items);
-        comboBox.setFont(LABEL_FONT);
-        comboBox.setPreferredSize(new Dimension(200, 30));
+        comboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return comboBox;
     }
 
     /**
-     * Creates a styled table.
+     * Creates a styled table with modern appearance and alternating rows.
      */
     public static JTable createTable(DefaultTableModel model) {
         JTable table = new JTable(model);
-        table.setFont(LABEL_FONT);
-        table.setRowHeight(30);
-        table.setSelectionBackground(PRIMARY_COLOR);
-        table.setSelectionForeground(Color.WHITE);
-        table.setGridColor(new Color(189, 195, 199));
-        table.setShowGrid(true);
-
-        // Header styling with custom renderer for visibility
-        JTableHeader header = table.getTableHeader();
-        header.setFont(HEADER_FONT);
-        header.setPreferredSize(new Dimension(header.getWidth(), 40));
-        header.setReorderingAllowed(false);
-
-        // Custom header renderer to ensure text is visible
-        header.setDefaultRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                    boolean isSelected, boolean hasFocus, int row, int column) {
-                JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-                        column);
-                label.setBackground(SECONDARY_COLOR);
-                label.setForeground(Color.WHITE);
-                label.setFont(HEADER_FONT);
-                label.setHorizontalAlignment(JLabel.CENTER);
-                label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(100, 100, 100)));
-                label.setOpaque(true);
-                return label;
-            }
-        });
-
-        // Center alignment for cells
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        table.setDefaultRenderer(Object.class, centerRenderer);
-
+        table.setRowHeight(36);
+        table.getTableHeader().setReorderingAllowed(false);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setIntercellSpacing(new Dimension(0, 1));
+        table.setShowGrid(false);
+        table.setShowHorizontalLines(true);
+        table.setFillsViewportHeight(true);
+        table.setGridColor(new Color(230, 230, 230));
+        
         return table;
     }
 
     /**
-     * Creates a panel with card styling.
+     * Creates a card panel with light shadow effect.
      */
     public static JPanel createCardPanel() {
         JPanel panel = new JPanel();
-        panel.setBackground(CARD_COLOR);
+        panel.setBackground(BG_WHITE);
+        
+        // Light shadow border
+        Border shadow = BorderFactory.createMatteBorder(0, 0, 2, 2, new Color(220, 220, 220));
+        Border line = BorderFactory.createLineBorder(new Color(230, 230, 230), 1);
+        Border padding = BorderFactory.createEmptyBorder(16, 16, 16, 16);
+        
         panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(189, 195, 199), 1),
-                BorderFactory.createEmptyBorder(15, 15, 15, 15)));
+            BorderFactory.createCompoundBorder(shadow, line),
+            padding
+        ));
+        
+        return panel;
+    }
+    
+    /**
+     * Creates an elevated panel for interactive sections.
+     */
+    public static JPanel createElevatedPanel() {
+        JPanel panel = new JPanel();
+        panel.setBackground(BG_WHITE);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(PRIMARY_COLOR, 1),
+            BorderFactory.createEmptyBorder(12, 12, 12, 12)
+        ));
         return panel;
     }
 
@@ -189,7 +173,7 @@ public class SwingUtils {
      * Shows info dialog.
      */
     public static void showInfo(Component parent, String message) {
-        JOptionPane.showMessageDialog(parent, message, "Information",
+        JOptionPane.showMessageDialog(parent, message, "Bilgi",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -197,7 +181,7 @@ public class SwingUtils {
      * Shows success dialog.
      */
     public static void showSuccess(Component parent, String message) {
-        JOptionPane.showMessageDialog(parent, message, "Success",
+        JOptionPane.showMessageDialog(parent, message, "✓ Başarılı",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -205,7 +189,7 @@ public class SwingUtils {
      * Shows error dialog.
      */
     public static void showError(Component parent, String message) {
-        JOptionPane.showMessageDialog(parent, message, "Error",
+        JOptionPane.showMessageDialog(parent, message, "✗ Hata",
                 JOptionPane.ERROR_MESSAGE);
     }
 
@@ -213,7 +197,7 @@ public class SwingUtils {
      * Shows warning dialog.
      */
     public static void showWarning(Component parent, String message) {
-        JOptionPane.showMessageDialog(parent, message, "Warning",
+        JOptionPane.showMessageDialog(parent, message, "⚠ Uyarı",
                 JOptionPane.WARNING_MESSAGE);
     }
 
@@ -221,7 +205,7 @@ public class SwingUtils {
      * Shows confirmation dialog.
      */
     public static boolean showConfirm(Component parent, String message) {
-        int result = JOptionPane.showConfirmDialog(parent, message, "Confirm",
+        int result = JOptionPane.showConfirmDialog(parent, message, "Onayla",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return result == JOptionPane.YES_OPTION;
     }
@@ -234,38 +218,50 @@ public class SwingUtils {
     }
 
     /**
-     * Creates a form row with label and component.
+     * Creates a form row with label and component - enhanced spacing.
      */
     public static JPanel createFormRow(String labelText, JComponent component) {
-        JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        JPanel row = new JPanel(new BorderLayout(10, 0));
         row.setOpaque(false);
-
-        JLabel label = createLabel(labelText);
-        label.setPreferredSize(new Dimension(120, 25));
-
-        row.add(label);
-        row.add(component);
-
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        row.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+        
+        JLabel label = new JLabel(labelText);
+        label.setPreferredSize(new Dimension(100, 32));
+        label.setForeground(new Color(80, 80, 80));
+        
+        // Ensure component has proper size
+        if (component instanceof JTextField) {
+            component.setPreferredSize(new Dimension(220, 32));
+        } else if (component instanceof JComboBox) {
+            component.setPreferredSize(new Dimension(220, 32));
+        }
+        
+        row.add(label, BorderLayout.WEST);
+        row.add(component, BorderLayout.CENTER);
         return row;
     }
 
     /**
-     * Creates a stat card for dashboard.
+     * Creates a stat card for dashboard with accent color and depth.
      */
     public static JPanel createStatCard(String title, String value, Color color) {
         JPanel card = new JPanel(new BorderLayout(10, 10));
-        card.setBackground(CARD_COLOR);
+        card.setBackground(BG_WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(3, 0, 0, 0, color),
-                BorderFactory.createEmptyBorder(15, 20, 15, 20)));
+            BorderFactory.createMatteBorder(3, 0, 0, 0, color),
+            BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+                BorderFactory.createEmptyBorder(16, 20, 16, 20)
+            )
+        ));
         card.setPreferredSize(new Dimension(180, 100));
 
         JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(LABEL_FONT);
-        titleLabel.setForeground(Color.GRAY);
-
+        titleLabel.setForeground(new Color(100, 100, 100));
+        
         JLabel valueLabel = new JLabel(value);
-        valueLabel.setFont(TITLE_FONT);
+        valueLabel.putClientProperty("FlatLaf.styleClass", "h1");
         valueLabel.setForeground(color);
 
         card.add(titleLabel, BorderLayout.NORTH);
@@ -275,29 +271,36 @@ public class SwingUtils {
     }
 
     /**
-     * Creates a navigation button with auto-sized width based on text.
-     * 
-     * @param text    Button text
-     * @param bgColor Background color
-     * @return Styled JButton with auto-calculated width
+     * Creates a navigation button.
      */
     public static JButton createAutoSizeNavButton(String text, Color bgColor) {
         JButton button = new JButton(text);
         button.setBackground(bgColor);
         button.setForeground(Color.WHITE);
-        button.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        // Auto-calculate width based on text
-        FontMetrics fm = button.getFontMetrics(button.getFont());
-        int textWidth = fm.stringWidth(text);
-        int buttonWidth = Math.max(85, textWidth + 24);
-        button.setPreferredSize(new Dimension(buttonWidth, 30));
-        button.setMinimumSize(new Dimension(buttonWidth, 30));
-        button.setMaximumSize(new Dimension(buttonWidth, 30));
-
         return button;
+    }
+    
+    /**
+     * Creates a section separator with title.
+     */
+    public static JPanel createSectionSeparator(String title) {
+        JPanel panel = new JPanel(new BorderLayout(10, 0));
+        panel.setOpaque(false);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+        
+        JLabel label = new JLabel(title);
+        label.setForeground(PRIMARY_COLOR);
+        label.putClientProperty("FlatLaf.styleClass", "h3");
+        
+        JSeparator separator = new JSeparator();
+        separator.setForeground(new Color(220, 220, 220));
+        
+        panel.add(label, BorderLayout.WEST);
+        panel.add(separator, BorderLayout.CENTER);
+        
+        return panel;
     }
 }

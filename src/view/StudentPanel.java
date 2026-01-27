@@ -92,7 +92,7 @@ public class StudentPanel extends JPanel {
 
         JButton btnAdd = SwingUtils.createSuccessButton("Add");
         JButton btnUpdate = SwingUtils.createPrimaryButton("Update");
-        JButton btnClear = SwingUtils.createButton("Clear", Color.GRAY);
+        JButton btnClear = SwingUtils.createButton("Clear");
 
         btnAdd.addActionListener(e -> addStudent());
         btnUpdate.addActionListener(e -> updateStudent());
@@ -225,12 +225,14 @@ public class StudentPanel extends JPanel {
         }
 
         try {
+            Student.SkillLevel selectedLevel = (Student.SkillLevel) cmbSkillLevel.getSelectedItem();
             Student student = studentController.registerStudent(
                     txtFirstName.getText(),
                     txtLastName.getText(),
                     txtEmail.getText(),
                     txtPhone.getText(),
-                    txtDateOfBirth.getText());
+                    txtDateOfBirth.getText(),
+                    selectedLevel);
             SwingUtils.showSuccess(this, "Student added successfully! ID: " + student.getId());
             clearForm();
             refreshTable();

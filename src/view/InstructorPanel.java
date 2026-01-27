@@ -83,7 +83,7 @@ public class InstructorPanel extends JPanel {
         
         JButton btnAdd = SwingUtils.createSuccessButton("Add");
         JButton btnUpdate = SwingUtils.createPrimaryButton("Update");
-        JButton btnClear = SwingUtils.createButton("Clear", Color.GRAY);
+        JButton btnClear = SwingUtils.createButton("Clear");
         
         btnAdd.addActionListener(e -> addInstructor());
         btnUpdate.addActionListener(e -> updateInstructor());

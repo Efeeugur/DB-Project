@@ -56,14 +56,18 @@ public class EnrollmentController {
                 ") does not match course level (" + course.getSkillLevel() + ").");
         }
         
-        // Check if already enrolled
-        if (enrollmentDAO.findByStudentAndCourse(studentId, courseId) != null) {
+        // Check if already enrolled with ACTIVE status (allow re-enrollment if dropped)
+        Enrollment existingEnrollment = enrollmentDAO.findByStudentAndCourse(studentId, courseId);
+        if (existingEnrollment != null && existingEnrollment.getStatus() == Enrollment.Status.ACTIVE) {
             throw new IllegalArgumentException("Student is already enrolled in this course.");
         }
         
-        // Check course capacity
-        int currentEnrollments = enrollmentDAO.countByCourseId(courseId);
-        if (currentEnrollments >= course.getMaxCapacity()) {
+        // Check course capacity (count only ACTIVE enrollments)
+        List<Enrollment> courseEnrollments = enrollmentDAO.findByCourseId(courseId);
+        int activeCount = (int) courseEnrollments.stream()
+            .filter(e -> e.getStatus() == Enrollment.Status.ACTIVE)
+            .count();
+        if (activeCount >= course.getMaxCapacity()) {
             throw new IllegalArgumentException("Course is full.");
         }
         

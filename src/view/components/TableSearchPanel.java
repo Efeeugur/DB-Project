@@ -27,23 +27,18 @@ public class TableSearchPanel extends JPanel {
         
         // Search icon label
         JLabel searchLabel = new JLabel("🔍 Search:");
-        searchLabel.setFont(SwingUtils.LABEL_FONT);
         add(searchLabel);
         
         // Search field
         searchField = new JTextField(20);
-        searchField.setFont(SwingUtils.LABEL_FONT);
-        searchField.setPreferredSize(new Dimension(200, 30));
         searchField.setToolTipText("Type to search...");
         add(searchField);
         
         // Column selector
         JLabel inLabel = new JLabel("in:");
-        inLabel.setFont(SwingUtils.LABEL_FONT);
         add(inLabel);
         
         columnSelector = new JComboBox<>();
-        columnSelector.setFont(SwingUtils.LABEL_FONT);
         columnSelector.setPreferredSize(new Dimension(150, 30));
         columnSelector.addItem("All Columns");
         
@@ -57,8 +52,7 @@ public class TableSearchPanel extends JPanel {
         add(columnSelector);
         
         // Clear button
-        clearButton = SwingUtils.createButton("Clear", Color.GRAY);
-        clearButton.setPreferredSize(new Dimension(80, 30));
+        clearButton = SwingUtils.createButton("Clear");
         clearButton.addActionListener(e -> clearSearch());
         add(clearButton);
         

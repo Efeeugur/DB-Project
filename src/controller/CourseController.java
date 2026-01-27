@@ -1,9 +1,11 @@
 package controller;
 
 import model.dao.CourseDAO;
+import model.dao.EnrollmentDAO;
 import model.dao.InstructorDAO;
 import model.dao.SessionDAO;
 import model.entity.Course;
+import model.entity.Enrollment;
 import model.entity.Session;
 import model.entity.Student;
 import java.math.BigDecimal;
@@ -20,11 +22,16 @@ public class CourseController {
     private final CourseDAO courseDAO;
     private final InstructorDAO instructorDAO;
     private final SessionDAO sessionDAO;
+    private EnrollmentDAO enrollmentDAO;
     
     public CourseController(CourseDAO courseDAO, InstructorDAO instructorDAO, SessionDAO sessionDAO) {
         this.courseDAO = courseDAO;
         this.instructorDAO = instructorDAO;
         this.sessionDAO = sessionDAO;
+    }
+    
+    public void setEnrollmentDAO(EnrollmentDAO enrollmentDAO) {
+        this.enrollmentDAO = enrollmentDAO;
     }
     
     /**
@@ -69,8 +76,21 @@ public class CourseController {
     
     /**
      * Updates course information.
+     * Validates that new capacity is not less than current active enrollments.
      */
     public Course updateCourse(Course course) {
+        // Check if capacity is being reduced below active enrollment count
+        if (enrollmentDAO != null) {
+            List<Enrollment> enrollments = enrollmentDAO.findByCourseId(course.getId());
+            int activeCount = (int) enrollments.stream()
+                .filter(e -> e.getStatus() == Enrollment.Status.ACTIVE)
+                .count();
+            if (course.getMaxCapacity() < activeCount) {
+                throw new IllegalArgumentException(
+                    "Cannot reduce capacity to " + course.getMaxCapacity() + 
+                    ". There are currently " + activeCount + " active students enrolled.");
+            }
+        }
         return courseDAO.update(course);
     }
     

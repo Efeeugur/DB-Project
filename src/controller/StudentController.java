@@ -24,7 +24,7 @@ public class StudentController {
      * Registers a new student.
      */
     public Student registerStudent(String firstName, String lastName, String email, 
-                                   String phone, String dateOfBirth) {
+                                   String phone, String dateOfBirth, Student.SkillLevel skillLevel) {
         // Check if email already exists
         if (studentDAO.findByEmail(email) != null) {
             throw new IllegalArgumentException("A student with this email already exists.");
@@ -36,7 +36,7 @@ public class StudentController {
         student.setEmail(email);
         student.setPhone(phone);
         student.setDateOfBirth(dateOfBirth);
-        student.setSkillLevel(Student.SkillLevel.BEGINNER);
+        student.setSkillLevel(skillLevel);
         
         return studentDAO.save(student);
     }
