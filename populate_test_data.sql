@@ -3,6 +3,7 @@
 -- ==========================================
 -- Bu dosya veritabanını temizler ve örnek veriler ekler.
 -- pgAdmin'de Query Tool ile çalıştırın.
+-- Son güncelleme: 2026-01-27
 
 -- 1. Mevcut verileri temizle
 TRUNCATE TABLE attendance CASCADE;
@@ -160,8 +161,9 @@ INSERT INTO sessions (course_id, session_date, start_time, end_time, topic)
 SELECT id, '2024-09-21', '11:00', '14:00', 'Installation Art' FROM courses WHERE name = 'Contemporary Art Theory';
 
 -- ==========================================
--- 6. ENROLLMENTS (15 kayıt - dinamik id'ler)
+-- 6. ENROLLMENTS (15 kayıt - çeşitli durumlarla)
 -- ==========================================
+-- ACTIVE enrollments (10)
 INSERT INTO enrollments (student_id, course_id, status, enrollment_date)
 SELECT s.id, c.id, 'ACTIVE', '2024-01-15'
 FROM students s, courses c WHERE s.first_name = 'Alice' AND c.name = 'Drawing Fundamentals';
@@ -202,6 +204,28 @@ INSERT INTO enrollments (student_id, course_id, status, enrollment_date)
 SELECT s.id, c.id, 'ACTIVE', '2024-05-20'
 FROM students s, courses c WHERE s.first_name = 'Maya' AND c.name = 'Sculpture Intensive';
 
+-- COMPLETED enrollments (2)
+INSERT INTO enrollments (student_id, course_id, status, enrollment_date)
+SELECT s.id, c.id, 'COMPLETED', '2023-09-01'
+FROM students s, courses c WHERE s.first_name = 'Noah' AND c.name = 'Contemporary Art Theory';
+
+INSERT INTO enrollments (student_id, course_id, status, enrollment_date)
+SELECT s.id, c.id, 'COMPLETED', '2023-09-05'
+FROM students s, courses c WHERE s.first_name = 'Olivia' AND c.name = 'Contemporary Art Theory';
+
+-- DROPPED enrollments (3) - for re-enrollment testing
+INSERT INTO enrollments (student_id, course_id, status, enrollment_date)
+SELECT s.id, c.id, 'DROPPED', '2024-01-10'
+FROM students s, courses c WHERE s.first_name = 'Emma' AND c.name = 'Drawing Fundamentals';
+
+INSERT INTO enrollments (student_id, course_id, status, enrollment_date)
+SELECT s.id, c.id, 'DROPPED', '2024-01-12'
+FROM students s, courses c WHERE s.first_name = 'Isabel' AND c.name = 'Portrait Painting';
+
+INSERT INTO enrollments (student_id, course_id, status, enrollment_date)
+SELECT s.id, c.id, 'DROPPED', '2024-01-22'
+FROM students s, courses c WHERE s.first_name = 'Jack' AND c.name = 'Abstract Art Workshop';
+
 -- ==========================================
 -- 7. PAYMENTS (dinamik enrollment_id)
 -- ==========================================
@@ -209,61 +233,74 @@ INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_dat
 SELECT e.id, 299.99, 'COMPLETED', 'Credit Card', '2024-01-15'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Alice';
+WHERE s.first_name = 'Alice' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 299.99, 'COMPLETED', 'Cash', '2024-01-16'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Bob';
+WHERE s.first_name = 'Bob' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 249.99, 'PENDING', NULL, '2024-01-17'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Carol';
+WHERE s.first_name = 'Carol' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 249.99, 'COMPLETED', 'Debit Card', '2024-01-18'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'David';
+WHERE s.first_name = 'David' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 499.99, 'COMPLETED', 'Credit Card', '2024-01-20'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Frank';
+WHERE s.first_name = 'Frank' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 499.99, 'PENDING', NULL, '2024-01-21'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Grace';
+WHERE s.first_name = 'Grace' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 399.99, 'COMPLETED', 'Bank Transfer', '2024-05-15'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Henry';
+WHERE s.first_name = 'Henry' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 799.99, 'COMPLETED', 'Credit Card', '2024-01-25'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Kate';
+WHERE s.first_name = 'Kate' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 799.99, 'PENDING', NULL, '2024-01-26'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Liam';
+WHERE s.first_name = 'Liam' AND e.status = 'ACTIVE';
 
 INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
 SELECT e.id, 899.99, 'COMPLETED', 'Credit Card', '2024-05-20'
 FROM enrollments e 
 JOIN students s ON e.student_id = s.id 
-WHERE s.first_name = 'Maya';
+WHERE s.first_name = 'Maya' AND e.status = 'ACTIVE';
+
+-- Refunded payments for dropped enrollments
+INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
+SELECT e.id, 299.99, 'REFUNDED', 'Credit Card', '2024-01-10'
+FROM enrollments e 
+JOIN students s ON e.student_id = s.id 
+WHERE s.first_name = 'Emma' AND e.status = 'DROPPED';
+
+INSERT INTO payments (enrollment_id, amount, status, payment_method, payment_date)
+SELECT e.id, 499.99, 'REFUNDED', 'Debit Card', '2024-01-12'
+FROM enrollments e 
+JOIN students s ON e.student_id = s.id 
+WHERE s.first_name = 'Isabel' AND e.status = 'DROPPED';
 
 -- ==========================================
 -- 8. ATTENDANCE (dinamik enrollment_id ve session_id)
@@ -274,7 +311,7 @@ FROM enrollments e
 JOIN students s ON e.student_id = s.id
 JOIN courses c ON e.course_id = c.id
 JOIN sessions ss ON ss.course_id = c.id
-WHERE s.first_name = 'Alice' AND ss.topic = 'Introduction to Lines and Shapes';
+WHERE s.first_name = 'Alice' AND ss.topic = 'Introduction to Lines and Shapes' AND e.status = 'ACTIVE';
 
 INSERT INTO attendance (enrollment_id, session_id, status, notes)
 SELECT e.id, ss.id, 'PRESENT', 'Showed improvement'
@@ -282,7 +319,7 @@ FROM enrollments e
 JOIN students s ON e.student_id = s.id
 JOIN courses c ON e.course_id = c.id
 JOIN sessions ss ON ss.course_id = c.id
-WHERE s.first_name = 'Alice' AND ss.topic = 'Perspective Drawing Basics';
+WHERE s.first_name = 'Alice' AND ss.topic = 'Perspective Drawing Basics' AND e.status = 'ACTIVE';
 
 INSERT INTO attendance (enrollment_id, session_id, status, notes)
 SELECT e.id, ss.id, 'LATE', 'Arrived 15 minutes late'
@@ -290,7 +327,7 @@ FROM enrollments e
 JOIN students s ON e.student_id = s.id
 JOIN courses c ON e.course_id = c.id
 JOIN sessions ss ON ss.course_id = c.id
-WHERE s.first_name = 'Alice' AND ss.topic = 'Shading and Light Techniques';
+WHERE s.first_name = 'Alice' AND ss.topic = 'Shading and Light Techniques' AND e.status = 'ACTIVE';
 
 INSERT INTO attendance (enrollment_id, session_id, status, notes)
 SELECT e.id, ss.id, 'PRESENT', 'Excellent work'
@@ -298,7 +335,7 @@ FROM enrollments e
 JOIN students s ON e.student_id = s.id
 JOIN courses c ON e.course_id = c.id
 JOIN sessions ss ON ss.course_id = c.id
-WHERE s.first_name = 'Bob' AND ss.topic = 'Introduction to Lines and Shapes';
+WHERE s.first_name = 'Bob' AND ss.topic = 'Introduction to Lines and Shapes' AND e.status = 'ACTIVE';
 
 INSERT INTO attendance (enrollment_id, session_id, status, notes)
 SELECT e.id, ss.id, 'ABSENT', 'Called in sick'
@@ -306,7 +343,7 @@ FROM enrollments e
 JOIN students s ON e.student_id = s.id
 JOIN courses c ON e.course_id = c.id
 JOIN sessions ss ON ss.course_id = c.id
-WHERE s.first_name = 'Bob' AND ss.topic = 'Perspective Drawing Basics';
+WHERE s.first_name = 'Bob' AND ss.topic = 'Perspective Drawing Basics' AND e.status = 'ACTIVE';
 
 INSERT INTO attendance (enrollment_id, session_id, status, notes)
 SELECT e.id, ss.id, 'PRESENT', 'Professional level'
@@ -314,7 +351,7 @@ FROM enrollments e
 JOIN students s ON e.student_id = s.id
 JOIN courses c ON e.course_id = c.id
 JOIN sessions ss ON ss.course_id = c.id
-WHERE s.first_name = 'Kate' AND ss.topic = 'Underpainting';
+WHERE s.first_name = 'Kate' AND ss.topic = 'Underpainting' AND e.status = 'ACTIVE';
 
 INSERT INTO attendance (enrollment_id, session_id, status, notes)
 SELECT e.id, ss.id, 'PRESENT', 'Excellent technique'
@@ -322,25 +359,64 @@ FROM enrollments e
 JOIN students s ON e.student_id = s.id
 JOIN courses c ON e.course_id = c.id
 JOIN sessions ss ON ss.course_id = c.id
-WHERE s.first_name = 'Kate' AND ss.topic = 'Glazing';
+WHERE s.first_name = 'Kate' AND ss.topic = 'Glazing' AND e.status = 'ACTIVE';
+
+INSERT INTO attendance (enrollment_id, session_id, status, notes)
+SELECT e.id, ss.id, 'EXCUSED', 'Medical appointment'
+FROM enrollments e 
+JOIN students s ON e.student_id = s.id
+JOIN courses c ON e.course_id = c.id
+JOIN sessions ss ON ss.course_id = c.id
+WHERE s.first_name = 'Frank' AND ss.topic = 'Facial Proportions' AND e.status = 'ACTIVE';
+
+INSERT INTO attendance (enrollment_id, session_id, status, notes)
+SELECT e.id, ss.id, 'PRESENT', 'Very engaged'
+FROM enrollments e 
+JOIN students s ON e.student_id = s.id
+JOIN courses c ON e.course_id = c.id
+JOIN sessions ss ON ss.course_id = c.id
+WHERE s.first_name = 'Frank' AND ss.topic = 'Skin Tones' AND e.status = 'ACTIVE';
+
+INSERT INTO attendance (enrollment_id, session_id, status, notes)
+SELECT e.id, ss.id, 'PRESENT', 'Great color mixing'
+FROM enrollments e 
+JOIN students s ON e.student_id = s.id
+JOIN courses c ON e.course_id = c.id
+JOIN sessions ss ON ss.course_id = c.id
+WHERE s.first_name = 'Carol' AND ss.topic = 'Primary and Secondary Colors' AND e.status = 'ACTIVE';
 
 -- ==========================================
 -- 9. SKILL TESTS (dinamik student_id)
 -- ==========================================
 INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
-SELECT id, 65, 'BEGINNER', '2024-01-10', 'Shows promise' FROM students WHERE first_name = 'Alice';
+SELECT id, 65, 'BEGINNER', '2024-01-10', 'Shows promise, needs practice with basic techniques' FROM students WHERE first_name = 'Alice';
 
 INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
-SELECT id, 72, 'BEGINNER', '2024-01-11', 'Good understanding' FROM students WHERE first_name = 'Bob';
+SELECT id, 72, 'BEGINNER', '2024-01-11', 'Good understanding of fundamentals' FROM students WHERE first_name = 'Bob';
 
 INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
-SELECT id, 82, 'INTERMEDIATE', '2024-01-15', 'Strong skills' FROM students WHERE first_name = 'Frank';
+SELECT id, 58, 'BEGINNER', '2024-01-12', 'New to art, enthusiastic learner' FROM students WHERE first_name = 'Carol';
 
 INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
-SELECT id, 92, 'ADVANCED', '2024-01-20', 'Professional quality' FROM students WHERE first_name = 'Kate';
+SELECT id, 82, 'INTERMEDIATE', '2024-01-15', 'Strong technical skills' FROM students WHERE first_name = 'Frank';
 
 INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
-SELECT id, 88, 'ADVANCED', '2024-01-21', 'Gallery-ready work' FROM students WHERE first_name = 'Liam';
+SELECT id, 78, 'INTERMEDIATE', '2024-01-16', 'Creative approach, good color sense' FROM students WHERE first_name = 'Grace';
+
+INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
+SELECT id, 85, 'INTERMEDIATE', '2024-01-17', 'Excellent perspective understanding' FROM students WHERE first_name = 'Henry';
+
+INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
+SELECT id, 92, 'ADVANCED', '2024-01-20', 'Professional quality work' FROM students WHERE first_name = 'Kate';
+
+INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
+SELECT id, 88, 'ADVANCED', '2024-01-21', 'Gallery-ready portfolio' FROM students WHERE first_name = 'Liam';
+
+INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
+SELECT id, 95, 'ADVANCED', '2024-01-22', 'Exceptional talent, masters multiple styles' FROM students WHERE first_name = 'Maya';
+
+INSERT INTO skill_tests (student_id, score, assigned_level, test_date, notes)
+SELECT id, 90, 'ADVANCED', '2024-01-23', 'Strong conceptual and technical skills' FROM students WHERE first_name = 'Noah';
 
 -- ==========================================
 -- SUMMARY / ÖZET
@@ -349,7 +425,24 @@ SELECT id, 88, 'ADVANCED', '2024-01-21', 'Gallery-ready work' FROM students WHER
 -- Students: 15 (5 BEGINNER, 5 INTERMEDIATE, 5 ADVANCED)
 -- Courses: 9 (3 per level)
 -- Sessions: 27 (3 per course)
--- Enrollments: 10 
--- Payments: 10 (6 COMPLETED, 4 PENDING)
--- Attendance: 7 records
--- Skill Tests: 5
+-- Enrollments: 15 (10 ACTIVE, 2 COMPLETED, 3 DROPPED)
+-- Payments: 12 (7 COMPLETED, 3 PENDING, 2 REFUNDED)
+-- Attendance: 10 records (various statuses)
+-- Skill Tests: 10
+
+-- Verify data counts
+SELECT 'Instructors' AS table_name, COUNT(*) AS count FROM instructors
+UNION ALL
+SELECT 'Students', COUNT(*) FROM students
+UNION ALL
+SELECT 'Courses', COUNT(*) FROM courses
+UNION ALL
+SELECT 'Sessions', COUNT(*) FROM sessions
+UNION ALL
+SELECT 'Enrollments', COUNT(*) FROM enrollments
+UNION ALL
+SELECT 'Payments', COUNT(*) FROM payments
+UNION ALL
+SELECT 'Attendance', COUNT(*) FROM attendance
+UNION ALL
+SELECT 'Skill Tests', COUNT(*) FROM skill_tests;

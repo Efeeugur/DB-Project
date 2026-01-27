@@ -8,7 +8,8 @@ echo "=========================================="
 echo ""
 
 # PostgreSQL binary path
-PSQL="/Library/PostgreSQL/18/bin/psql"
+# PostgreSQL binary path
+PSQL="/opt/homebrew/opt/postgresql@16/bin/psql"
 
 # Configuration
 DB_NAME="DB-Project"
